@@ -3,7 +3,14 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ArrowLeft } from '@lucide/vue';
 import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { dashboard } from '@/routes';
@@ -70,7 +77,7 @@ function submit() {
             onFinish: () => {
                 processing.value = false;
             },
-        }
+        },
     );
 }
 </script>
@@ -78,17 +85,19 @@ function submit() {
 <template>
     <Head :title="`Edit ${job.jobTitle} - Trackly`" />
 
-    <div class="flex flex-1 flex-col gap-6 p-4 md:p-6 max-w-4xl mx-auto w-full">
+    <div class="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 p-4 md:p-6">
         <div class="space-y-2">
             <Link
                 :href="`/jobs/${job.id}`"
-                class="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors font-medium"
+                class="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
                 <ArrowLeft class="size-3.5" />
                 <span>Back to application details</span>
             </Link>
 
-            <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+            <h1
+                class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+            >
                 Edit Application
             </h1>
             <p class="text-sm text-muted-foreground">
@@ -100,10 +109,12 @@ function submit() {
             <Card>
                 <CardHeader>
                     <CardTitle class="text-base">Role Information</CardTitle>
-                    <CardDescription>Primary application fields.</CardDescription>
+                    <CardDescription
+                        >Primary application fields.</CardDescription
+                    >
                 </CardHeader>
                 <CardContent class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="space-y-1.5">
                             <Label for="jobTitle">Job Title *</Label>
                             <Input
@@ -111,7 +122,10 @@ function submit() {
                                 v-model="form.jobTitle"
                                 required
                             />
-                            <span v-if="errors.jobTitle" class="text-xs text-destructive">
+                            <span
+                                v-if="errors.jobTitle"
+                                class="text-xs text-destructive"
+                            >
                                 {{ errors.jobTitle }}
                             </span>
                         </div>
@@ -123,21 +137,28 @@ function submit() {
                                 v-model="form.companyName"
                                 required
                             />
-                            <span v-if="errors.companyName" class="text-xs text-destructive">
+                            <span
+                                v-if="errors.companyName"
+                                class="text-xs text-destructive"
+                            >
                                 {{ errors.companyName }}
                             </span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="space-y-1.5">
                             <Label for="status">Current Status *</Label>
                             <select
                                 id="status"
                                 v-model="form.status"
-                                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring capitalize"
+                                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm capitalize shadow-xs transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                             >
-                                <option v-for="s in statuses" :key="s" :value="s">
+                                <option
+                                    v-for="s in statuses"
+                                    :key="s"
+                                    :value="s"
+                                >
                                     {{ s }}
                                 </option>
                             </select>
@@ -161,7 +182,10 @@ function submit() {
                             v-model="form.jobURL"
                             placeholder="https://..."
                         />
-                        <span v-if="errors.jobURL" class="text-xs text-destructive">
+                        <span
+                            v-if="errors.jobURL"
+                            class="text-xs text-destructive"
+                        >
                             {{ errors.jobURL }}
                         </span>
                     </div>
@@ -174,7 +198,11 @@ function submit() {
                             class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs"
                         >
                             <option value="">None</option>
-                            <option v-for="cv in cvs" :key="cv.id" :value="String(cv.id)">
+                            <option
+                                v-for="cv in cvs"
+                                :key="cv.id"
+                                :value="String(cv.id)"
+                            >
                                 {{ cv.name || 'Resume #' + cv.id }}
                             </option>
                         </select>
@@ -187,14 +215,14 @@ function submit() {
                             v-model="form.notes"
                             rows="4"
                             placeholder="Interview rounds, recruiter feedback, salary info..."
-                            class="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                            class="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                         />
                     </div>
                 </CardContent>
                 <CardFooter class="flex items-center justify-end gap-3 pt-2">
                     <Link
                         :href="`/jobs/${job.id}`"
-                        class="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input h-9 px-4 hover:bg-muted transition-colors"
+                        class="inline-flex h-9 items-center justify-center rounded-md border border-input px-4 text-sm font-medium transition-colors hover:bg-muted"
                     >
                         Cancel
                     </Link>

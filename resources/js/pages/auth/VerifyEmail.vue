@@ -17,17 +17,20 @@ defineOptions({
 
     <div class="space-y-6 text-center">
         <p class="text-sm text-muted-foreground">
-            Email verification is not required for your account. You have full access to your dashboard.
+            Email verification is not required for your account. You have full
+            access to your dashboard.
         </p>
 
         <div class="flex flex-col gap-3">
             <Button as-child>
-                <Link :href="dashboard()">
-                    Go to Dashboard
-                </Link>
+                <Link :href="dashboard()"> Go to Dashboard </Link>
             </Button>
 
-            <TextLink :href="logout()" as="button" class="mx-auto block text-sm">
+            <TextLink
+                :href="logout()"
+                as="button"
+                class="mx-auto block text-sm"
+            >
                 Log out
             </TextLink>
         </div>

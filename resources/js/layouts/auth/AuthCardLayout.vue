@@ -30,7 +30,9 @@ defineProps<{
                 :href="home()"
                 class="flex items-center gap-2.5 self-center text-xl font-bold tracking-tight text-foreground"
             >
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 p-1.5 shadow-xs ring-1 ring-sky-500/20">
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 p-1.5 shadow-xs ring-1 ring-sky-500/20"
+                >
                     <AppLogoIcon class="size-7" />
                 </div>
                 <span>Trackly</span>

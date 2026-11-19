@@ -20,7 +20,13 @@ import { ref, watch } from 'vue';
 import { toast } from 'vue-sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -67,13 +73,14 @@ function applyFilters() {
         '/jobs',
         {
             search: search.value || undefined,
-            status: activeStatus.value !== 'all' ? activeStatus.value : undefined,
+            status:
+                activeStatus.value !== 'all' ? activeStatus.value : undefined,
         },
         {
             preserveState: true,
             preserveScroll: true,
             replace: true,
-        }
+        },
     );
 }
 
@@ -110,7 +117,7 @@ function handleStatusChange(job: TrackedJob, newStatus: TrackedJobStatus) {
             onFinish: () => {
                 updatingStatusJobId.value = null;
             },
-        }
+        },
     );
 }
 
@@ -182,19 +189,24 @@ function formatDate(dateStr?: string | null): string {
 
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                <h1
+                    class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+                >
                     Job Applications
                 </h1>
                 <p class="text-sm text-muted-foreground">
-                    Manage, track, and update all your job opportunities in one place.
+                    Manage, track, and update all your job opportunities in one
+                    place.
                 </p>
             </div>
 
             <Link
                 href="/jobs/create"
-                class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground h-9 px-4 py-2 hover:bg-primary/90 transition-colors shadow-xs self-start sm:self-auto"
+                class="inline-flex h-9 items-center justify-center gap-2 self-start rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90 sm:self-auto"
             >
                 <Plus class="size-4" />
                 <span>Add Application</span>
@@ -202,13 +214,17 @@ function formatDate(dateStr?: string | null): string {
         </div>
 
         <!-- Filter & Search Bar -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card border rounded-xl p-3 shadow-2xs">
+        <div
+            class="flex flex-col justify-between gap-3 rounded-xl border bg-card p-3 shadow-2xs md:flex-row md:items-center"
+        >
             <div class="relative w-full md:w-80">
-                <Search class="absolute left-3 top-2.5 size-4 text-muted-foreground" />
+                <Search
+                    class="absolute top-2.5 left-3 size-4 text-muted-foreground"
+                />
                 <Input
                     v-model="search"
                     placeholder="Search by role or company..."
-                    class="pl-9 h-9 text-xs"
+                    class="h-9 pl-9 text-xs"
                 />
             </div>
 
@@ -237,12 +253,17 @@ function formatDate(dateStr?: string | null): string {
         <!-- Applications List / Table -->
         <Card>
             <CardContent class="p-0">
-                <div v-if="jobs.data.length === 0" class="flex flex-col items-center justify-center p-12 text-center">
-                    <div class="rounded-full bg-muted p-3 mb-3">
+                <div
+                    v-if="jobs.data.length === 0"
+                    class="flex flex-col items-center justify-center p-12 text-center"
+                >
+                    <div class="mb-3 rounded-full bg-muted p-3">
                         <Briefcase class="size-6 text-muted-foreground" />
                     </div>
-                    <h3 class="text-base font-semibold">No applications found</h3>
-                    <p class="text-sm text-muted-foreground max-w-sm mt-1 mb-4">
+                    <h3 class="text-base font-semibold">
+                        No applications found
+                    </h3>
+                    <p class="mt-1 mb-4 max-w-sm text-sm text-muted-foreground">
                         {{
                             search || activeStatus !== 'all'
                                 ? 'No jobs match your current filters. Try resetting your search.'
@@ -252,7 +273,7 @@ function formatDate(dateStr?: string | null): string {
                     <Link
                         v-if="!search && activeStatus === 'all'"
                         href="/jobs/create"
-                        class="inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground h-8 px-3 shadow-xs"
+                        class="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground shadow-xs"
                     >
                         <Plus class="size-3.5" />
                         Add First Application
@@ -263,13 +284,13 @@ function formatDate(dateStr?: string | null): string {
                     <div
                         v-for="job in jobs.data"
                         :key="job.id"
-                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 hover:bg-muted/40 transition-colors"
+                        class="flex flex-col justify-between gap-4 p-4 transition-colors hover:bg-muted/40 sm:flex-row sm:items-center"
                     >
-                        <div class="space-y-1.5 flex-1 min-w-0">
+                        <div class="min-w-0 flex-1 space-y-1.5">
                             <div class="flex items-center gap-2">
                                 <Link
                                     :href="`/jobs/${job.id}`"
-                                    class="font-semibold text-base text-foreground hover:text-primary transition-colors hover:underline"
+                                    class="text-base font-semibold text-foreground transition-colors hover:text-primary hover:underline"
                                 >
                                     {{ job.jobTitle }}
                                 </Link>
@@ -285,38 +306,66 @@ function formatDate(dateStr?: string | null): string {
                                 </a>
                             </div>
 
-                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                <span class="flex items-center gap-1 font-medium text-foreground/80">
+                            <div
+                                class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground"
+                            >
+                                <span
+                                    class="flex items-center gap-1 font-medium text-foreground/80"
+                                >
                                     <Building2 class="size-3.5" />
                                     {{ job.companyName }}
                                 </span>
                                 <span>•</span>
-                                <span>Applied: {{ formatDate(job.appliedAt) }}</span>
+                                <span
+                                    >Applied:
+                                    {{ formatDate(job.appliedAt) }}</span
+                                >
                                 <span v-if="job.cv">
-                                    • CV: <span class="text-foreground/80">{{ job.cv.name || 'Resume' }}</span>
+                                    • CV:
+                                    <span class="text-foreground/80">{{
+                                        job.cv.name || 'Resume'
+                                    }}</span>
                                 </span>
-                                <span v-if="job.contacts && job.contacts.length > 0">
-                                    • {{ job.contacts.length }} contact{{ job.contacts.length > 1 ? 's' : '' }}
+                                <span
+                                    v-if="
+                                        job.contacts && job.contacts.length > 0
+                                    "
+                                >
+                                    • {{ job.contacts.length }} contact{{
+                                        job.contacts.length > 1 ? 's' : ''
+                                    }}
                                 </span>
                             </div>
 
                             <p
                                 v-if="job.notes"
-                                class="text-xs text-muted-foreground line-clamp-1 italic pt-0.5"
+                                class="line-clamp-1 pt-0.5 text-xs text-muted-foreground italic"
                             >
                                 "{{ job.notes }}"
                             </p>
                         </div>
 
                         <!-- Direct Quick Status Changer & Actions -->
-                        <div class="flex items-center gap-3 self-start sm:self-auto shrink-0">
+                        <div
+                            class="flex shrink-0 items-center gap-3 self-start sm:self-auto"
+                        >
                             <!-- Direct Quick Status Changer -->
-                            <div class="relative inline-flex items-center" title="Click to quickly change status directly">
+                            <div
+                                class="relative inline-flex items-center"
+                                title="Click to quickly change status directly"
+                            >
                                 <select
                                     :value="job.status"
                                     :disabled="updatingStatusJobId === job.id"
-                                    @change="(e) => handleStatusChange(job, (e.target as HTMLSelectElement).value as TrackedJobStatus)"
-                                    class="appearance-none cursor-pointer text-xs font-semibold rounded-full pl-3 pr-7 py-1 border transition-all focus:outline-none focus:ring-2 focus:ring-primary/40 capitalize disabled:opacity-50"
+                                    @change="
+                                        (e) =>
+                                            handleStatusChange(
+                                                job,
+                                                (e.target as HTMLSelectElement)
+                                                    .value as TrackedJobStatus,
+                                            )
+                                    "
+                                    class="cursor-pointer appearance-none rounded-full border py-1 pr-7 pl-3 text-xs font-semibold capitalize transition-all focus:ring-2 focus:ring-primary/40 focus:outline-none disabled:opacity-50"
                                     :class="getStatusBadgeClass(job.status)"
                                 >
                                     <option
@@ -328,20 +377,22 @@ function formatDate(dateStr?: string | null): string {
                                         {{ s }}
                                     </option>
                                 </select>
-                                <ChevronDown class="pointer-events-none absolute right-2 size-3 opacity-60" />
+                                <ChevronDown
+                                    class="pointer-events-none absolute right-2 size-3 opacity-60"
+                                />
                             </div>
 
                             <div class="flex items-center gap-1">
                                 <Link
                                     :href="`/jobs/${job.id}`"
-                                    class="inline-flex items-center justify-center size-8 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                    class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                                     title="View Details"
                                 >
                                     <Eye class="size-4" />
                                 </Link>
                                 <Link
                                     :href="`/jobs/${job.id}/edit`"
-                                    class="inline-flex items-center justify-center size-8 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                    class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                                     title="Edit"
                                 >
                                     <Pencil class="size-4" />
@@ -349,7 +400,7 @@ function formatDate(dateStr?: string | null): string {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    class="size-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                    class="size-8 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                                     @click="openDeleteModal(job)"
                                     title="Delete"
                                 >
@@ -363,58 +414,70 @@ function formatDate(dateStr?: string | null): string {
                 <!-- Pagination Footer -->
                 <div
                     v-if="jobs.total > 0"
-                    class="flex flex-col sm:flex-row items-center justify-between gap-3 border-t px-4 py-3 bg-card rounded-b-xl"
+                    class="flex flex-col items-center justify-between gap-3 rounded-b-xl border-t bg-card px-4 py-3 sm:flex-row"
                 >
                     <div class="text-xs text-muted-foreground">
                         Showing
-                        <span class="font-medium text-foreground">{{ jobs.from ?? 0 }}</span>
+                        <span class="font-medium text-foreground">{{
+                            jobs.from ?? 0
+                        }}</span>
                         to
-                        <span class="font-medium text-foreground">{{ jobs.to ?? 0 }}</span>
+                        <span class="font-medium text-foreground">{{
+                            jobs.to ?? 0
+                        }}</span>
                         of
-                        <span class="font-medium text-foreground">{{ jobs.total }}</span>
+                        <span class="font-medium text-foreground">{{
+                            jobs.total
+                        }}</span>
                         applications
                     </div>
 
                     <!-- Page Navigation -->
-                    <div v-if="jobs.last_page > 1" class="flex items-center gap-1">
+                    <div
+                        v-if="jobs.last_page > 1"
+                        class="flex items-center gap-1"
+                    >
                         <Link
                             v-if="jobs.prev_page_url"
                             :href="jobs.prev_page_url"
                             preserve-scroll
                             preserve-state
-                            class="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+                            class="inline-flex items-center gap-1 rounded-md border border-input bg-background px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                         >
                             <ChevronLeft class="size-3.5" />
                             <span>Previous</span>
                         </Link>
                         <span
                             v-else
-                            class="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium border border-input/40 bg-muted/30 text-muted-foreground/50 cursor-not-allowed"
+                            class="inline-flex cursor-not-allowed items-center gap-1 rounded-md border border-input/40 bg-muted/30 px-2.5 py-1.5 text-xs font-medium text-muted-foreground/50"
                         >
                             <ChevronLeft class="size-3.5" />
                             <span>Previous</span>
                         </span>
 
                         <!-- Page number links -->
-                        <div class="hidden sm:flex items-center gap-1 mx-1">
-                            <template v-for="(link, i) in jobs.links.slice(1, -1)" :key="i">
+                        <div class="mx-1 hidden items-center gap-1 sm:flex">
+                            <template
+                                v-for="(link, i) in jobs.links.slice(1, -1)"
+                                :key="i"
+                            >
                                 <Link
                                     v-if="link.url"
                                     :href="link.url"
                                     preserve-scroll
                                     preserve-state
-                                    class="inline-flex items-center justify-center min-w-8 h-8 px-2 text-xs font-medium rounded-md border transition-colors"
+                                    class="inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-xs font-medium transition-colors"
                                     :class="
                                         link.active
-                                            ? 'bg-primary text-primary-foreground border-primary font-semibold shadow-2xs'
-                                            : 'bg-background hover:bg-accent border-input text-foreground'
+                                            ? 'border-primary bg-primary font-semibold text-primary-foreground shadow-2xs'
+                                            : 'border-input bg-background text-foreground hover:bg-accent'
                                     "
                                 >
                                     {{ link.label }}
                                 </Link>
                                 <span
                                     v-else
-                                    class="inline-flex items-center justify-center min-w-8 h-8 px-2 text-xs text-muted-foreground"
+                                    class="inline-flex h-8 min-w-8 items-center justify-center px-2 text-xs text-muted-foreground"
                                 >
                                     {{ link.label }}
                                 </span>
@@ -426,14 +489,14 @@ function formatDate(dateStr?: string | null): string {
                             :href="jobs.next_page_url"
                             preserve-scroll
                             preserve-state
-                            class="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+                            class="inline-flex items-center gap-1 rounded-md border border-input bg-background px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                         >
                             <span>Next</span>
                             <ChevronRight class="size-3.5" />
                         </Link>
                         <span
                             v-else
-                            class="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium border border-input/40 bg-muted/30 text-muted-foreground/50 cursor-not-allowed"
+                            class="inline-flex cursor-not-allowed items-center gap-1 rounded-md border border-input/40 bg-muted/30 px-2.5 py-1.5 text-xs font-medium text-muted-foreground/50"
                         >
                             <span>Next</span>
                             <ChevronRight class="size-3.5" />
@@ -448,20 +511,31 @@ function formatDate(dateStr?: string | null): string {
     <Dialog v-model:open="isDeleteDialogOpen">
         <DialogContent class="sm:max-w-md">
             <DialogHeader>
-                <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive mb-2 sm:mx-0">
+                <div
+                    class="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive sm:mx-0"
+                >
                     <AlertTriangle class="size-6" />
                 </div>
-                <DialogTitle class="text-lg font-bold">Delete Application</DialogTitle>
+                <DialogTitle class="text-lg font-bold"
+                    >Delete Application</DialogTitle
+                >
                 <DialogDescription class="pt-2 text-sm text-foreground/80">
                     Are you sure you want to delete
-                    <strong class="font-semibold text-foreground">"{{ jobToDelete?.jobTitle }}"</strong>
+                    <strong class="font-semibold text-foreground"
+                        >"{{ jobToDelete?.jobTitle }}"</strong
+                    >
                     at
-                    <strong class="font-semibold text-foreground">{{ jobToDelete?.companyName }}</strong>?
-                    <br /><br />
-                    This will permanently delete this job application and any contacts associated with it. This action cannot be undone.
+                    <strong class="font-semibold text-foreground">{{
+                        jobToDelete?.companyName
+                    }}</strong
+                    >? <br /><br />
+                    This will permanently delete this job application and any
+                    contacts associated with it. This action cannot be undone.
                 </DialogDescription>
             </DialogHeader>
-            <DialogFooter class="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end pt-4">
+            <DialogFooter
+                class="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end"
+            >
                 <Button
                     type="button"
                     variant="outline"

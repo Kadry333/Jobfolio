@@ -76,16 +76,21 @@ const user = computed(() => page.props.auth.user);
                 <Input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full bg-muted/60 cursor-not-allowed opacity-80"
+                    class="mt-1 block w-full cursor-not-allowed bg-muted/60 opacity-80"
                     :value="user.email"
                     disabled
                     readonly
                 />
-                <p class="text-xs text-muted-foreground">Email address cannot be changed.</p>
+                <p class="text-xs text-muted-foreground">
+                    Email address cannot be changed.
+                </p>
             </div>
 
             <div class="flex items-center gap-4">
-                <Button :disabled="processing" data-test="update-profile-button">
+                <Button
+                    :disabled="processing"
+                    data-test="update-profile-button"
+                >
                     Save
                 </Button>
             </div>

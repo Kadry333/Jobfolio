@@ -85,7 +85,7 @@ export function initializeTheme(): void {
 
 const appearance = ref<Appearance>(
     typeof window !== 'undefined'
-        ? (getStoredAppearance() || 'system')
+        ? getStoredAppearance() || 'system'
         : 'system',
 );
 

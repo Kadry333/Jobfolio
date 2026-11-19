@@ -24,46 +24,58 @@ const currentIcon = computed(() => {
             <Button
                 variant="ghost"
                 size="icon"
-                class="size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors"
+                class="size-8 rounded-md text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground"
                 title="Change theme (Light / Dark / System)"
                 aria-label="Change theme"
             >
-                <component :is="currentIcon" class="size-4 transition-transform duration-200" />
+                <component
+                    :is="currentIcon"
+                    class="size-4 transition-transform duration-200"
+                />
             </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" class="w-36">
             <DropdownMenuItem
-                class="flex items-center justify-between cursor-pointer text-xs"
+                class="flex cursor-pointer items-center justify-between text-xs"
                 @click="updateAppearance('light')"
             >
                 <div class="flex items-center gap-2">
                     <Sun class="size-3.5 text-amber-500" />
                     <span>Light</span>
                 </div>
-                <Check v-if="appearance === 'light'" class="size-3.5 text-primary" />
+                <Check
+                    v-if="appearance === 'light'"
+                    class="size-3.5 text-primary"
+                />
             </DropdownMenuItem>
 
             <DropdownMenuItem
-                class="flex items-center justify-between cursor-pointer text-xs"
+                class="flex cursor-pointer items-center justify-between text-xs"
                 @click="updateAppearance('dark')"
             >
                 <div class="flex items-center gap-2">
                     <Moon class="size-3.5 text-indigo-400" />
                     <span>Dark</span>
                 </div>
-                <Check v-if="appearance === 'dark'" class="size-3.5 text-primary" />
+                <Check
+                    v-if="appearance === 'dark'"
+                    class="size-3.5 text-primary"
+                />
             </DropdownMenuItem>
 
             <DropdownMenuItem
-                class="flex items-center justify-between cursor-pointer text-xs"
+                class="flex cursor-pointer items-center justify-between text-xs"
                 @click="updateAppearance('system')"
             >
                 <div class="flex items-center gap-2">
                     <Monitor class="size-3.5 text-muted-foreground" />
                     <span>System</span>
                 </div>
-                <Check v-if="appearance === 'system'" class="size-3.5 text-primary" />
+                <Check
+                    v-if="appearance === 'system'"
+                    class="size-3.5 text-primary"
+                />
             </DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>

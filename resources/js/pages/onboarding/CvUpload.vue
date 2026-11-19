@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ArrowRight, CheckCircle2, FileUp, Sparkles, UploadCloud } from '@lucide/vue';
+import {
+    ArrowRight,
+    CheckCircle2,
+    FileUp,
+    Sparkles,
+    UploadCloud,
+} from '@lucide/vue';
 import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -44,7 +57,8 @@ function setFile(file: File) {
 
 function submit() {
     if (!selectedFile.value) {
-        errorMessage.value = 'Please choose a file to upload or click "Skip for now".';
+        errorMessage.value =
+            'Please choose a file to upload or click "Skip for now".';
         return;
     }
 
@@ -72,28 +86,38 @@ function submit() {
 <template>
     <Head title="Upload Your Default CV - Trackly" />
 
-    <div class="min-h-screen bg-muted/30 flex flex-col items-center justify-center p-4 sm:p-6">
+    <div
+        class="flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4 sm:p-6"
+    >
         <div class="w-full max-w-lg space-y-6">
             <!-- Brand Badge -->
-            <div class="text-center space-y-2">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+            <div class="space-y-2 text-center">
+                <div
+                    class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+                >
                     <Sparkles class="size-3.5" />
                     <span>Welcome to Trackly</span>
                 </div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-foreground">
+                <h1
+                    class="text-3xl font-extrabold tracking-tight text-foreground"
+                >
                     Set up your default CV
                 </h1>
-                <p class="text-sm text-muted-foreground max-w-sm mx-auto">
-                    Hi {{ user.firstName || user.name }}! Uploading a default CV makes applying to jobs fast. You can always change or add more later.
+                <p class="mx-auto max-w-sm text-sm text-muted-foreground">
+                    Hi {{ user.firstName || user.name }}! Uploading a default CV
+                    makes applying to jobs fast. You can always change or add
+                    more later.
                 </p>
             </div>
 
             <!-- Upload Card -->
-            <Card class="shadow-md border-border/80">
+            <Card class="border-border/80 shadow-md">
                 <CardHeader>
                     <div class="flex items-center justify-between">
                         <CardTitle class="text-lg">Upload Resume</CardTitle>
-                        <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider bg-muted px-2 py-0.5 rounded">
+                        <span
+                            class="rounded bg-muted px-2 py-0.5 text-xs font-medium tracking-wider text-muted-foreground uppercase"
+                        >
                             Optional Step
                         </span>
                     </div>
@@ -108,8 +132,12 @@ function submit() {
                         @dragover.prevent="isDragging = true"
                         @dragleave.prevent="isDragging = false"
                         @drop.prevent="onDrop"
-                        class="border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer flex flex-col items-center justify-center gap-3"
-                        :class="isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/40'"
+                        class="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 text-center transition-colors"
+                        :class="
+                            isDragging
+                                ? 'border-primary bg-primary/5'
+                                : 'border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/40'
+                        "
                         @click="($refs.fileInput as HTMLInputElement).click()"
                     >
                         <input
@@ -120,7 +148,9 @@ function submit() {
                             @change="onFileChange"
                         />
 
-                        <div class="rounded-full bg-primary/10 p-3 text-primary">
+                        <div
+                            class="rounded-full bg-primary/10 p-3 text-primary"
+                        >
                             <UploadCloud class="size-8" />
                         </div>
 
@@ -134,12 +164,17 @@ function submit() {
                         </div>
 
                         <div v-else class="space-y-1">
-                            <div class="flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                            <div
+                                class="flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+                            >
                                 <CheckCircle2 class="size-4" />
                                 <span>{{ selectedFile.name }}</span>
                             </div>
                             <p class="text-xs text-muted-foreground">
-                                ({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB) • Click to replace
+                                ({{
+                                    (selectedFile.size / 1024 / 1024).toFixed(2)
+                                }}
+                                MB) • Click to replace
                             </p>
                         </div>
                     </div>
@@ -159,10 +194,12 @@ function submit() {
                     </p>
                 </CardContent>
 
-                <CardFooter class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-border/50">
+                <CardFooter
+                    class="flex flex-col items-center justify-between gap-3 border-t border-border/50 pt-2 sm:flex-row"
+                >
                     <Link
                         href="/dashboard"
-                        class="text-xs text-muted-foreground hover:text-foreground font-medium underline-offset-4 hover:underline order-2 sm:order-1"
+                        class="order-2 text-xs font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:order-1"
                     >
                         Skip for now, I'll do this later
                     </Link>
@@ -171,7 +208,7 @@ function submit() {
                         type="button"
                         @click="submit"
                         :disabled="processing || !selectedFile"
-                        class="w-full sm:w-auto gap-2 order-1 sm:order-2"
+                        class="order-1 w-full gap-2 sm:order-2 sm:w-auto"
                     >
                         <span>Save & Go to Dashboard</span>
                         <ArrowRight class="size-4" />

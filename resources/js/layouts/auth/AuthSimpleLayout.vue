@@ -23,17 +23,24 @@ defineProps<{
                 <div class="flex flex-col items-center gap-4">
                     <Link
                         :href="home()"
-                        class="flex flex-col items-center gap-2 group"
+                        class="group flex flex-col items-center gap-2"
                     >
                         <div
                             class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 p-2 shadow-xs ring-1 ring-sky-500/20 transition-transform group-hover:scale-105"
                         >
                             <AppLogoIcon class="size-8" />
                         </div>
-                        <span class="text-2xl font-bold tracking-tight text-foreground">Trackly</span>
+                        <span
+                            class="text-2xl font-bold tracking-tight text-foreground"
+                            >Trackly</span
+                        >
                     </Link>
                     <div class="space-y-1.5 text-center">
-                        <h1 class="text-xl font-semibold tracking-tight text-foreground">{{ title }}</h1>
+                        <h1
+                            class="text-xl font-semibold tracking-tight text-foreground"
+                        >
+                            {{ title }}
+                        </h1>
                         <p class="text-center text-sm text-muted-foreground">
                             {{ description }}
                         </p>

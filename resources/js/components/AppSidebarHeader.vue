@@ -39,7 +39,7 @@ const handleLogout = () => {
                 variant="outline"
                 size="sm"
                 as-child
-                class="h-9 gap-1.5 px-3 text-xs font-medium text-muted-foreground hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive transition-colors"
+                class="h-9 gap-1.5 px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive"
             >
                 <Link
                     :href="logout()"

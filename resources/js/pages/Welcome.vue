@@ -56,20 +56,37 @@ import { register } from '@/routes';
                 >
                     <h1 class="mb-1 text-2xl font-bold">Trackly</h1>
                     <p class="mb-4 text-[#706f6c] dark:text-[#A1A09A]">
-                        Your personal job application & interview tracker. Never lose track of an opportunity, recruiter contact, or follow-up deadline again.
+                        Your personal job application & interview tracker. Never
+                        lose track of an opportunity, recruiter contact, or
+                        follow-up deadline again.
                     </p>
                     <ul class="mb-6 flex flex-col gap-2.5">
-                        <li class="flex items-center gap-2 text-sm text-foreground">
+                        <li
+                            class="flex items-center gap-2 text-sm text-foreground"
+                        >
                             <span class="size-2 rounded-full bg-emerald-500" />
-                            <span><strong>Full Pipeline:</strong> Track from 'Will Apply' to 'Offer'.</span>
+                            <span
+                                ><strong>Full Pipeline:</strong> Track from
+                                'Will Apply' to 'Offer'.</span
+                            >
                         </li>
-                        <li class="flex items-center gap-2 text-sm text-foreground">
+                        <li
+                            class="flex items-center gap-2 text-sm text-foreground"
+                        >
                             <span class="size-2 rounded-full bg-purple-500" />
-                            <span><strong>Interviews & Reminders:</strong> Never miss a follow-up email.</span>
+                            <span
+                                ><strong>Interviews & Reminders:</strong> Never
+                                miss a follow-up email.</span
+                            >
                         </li>
-                        <li class="flex items-center gap-2 text-sm text-foreground">
+                        <li
+                            class="flex items-center gap-2 text-sm text-foreground"
+                        >
                             <span class="size-2 rounded-full bg-blue-500" />
-                            <span><strong>Resume Management:</strong> Link the exact CV used for each role.</span>
+                            <span
+                                ><strong>Resume Management:</strong> Link the
+                                exact CV used for each role.</span
+                            >
                         </li>
                     </ul>
                     <div class="flex gap-3 text-sm leading-normal">
@@ -97,20 +114,24 @@ import { register } from '@/routes';
                     </div>
                 </div>
                 <div
-                    class="relative -mb-px aspect-[335/364] w-full shrink-0 overflow-hidden rounded-t-lg bg-gradient-to-br from-sky-50 via-sky-100/40 to-indigo-50 flex items-center justify-center p-8 lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-r-lg dark:from-slate-900 dark:via-sky-950/40 dark:to-slate-900 border-l border-border/40"
+                    class="relative -mb-px flex aspect-[335/364] w-full shrink-0 items-center justify-center overflow-hidden rounded-t-lg border-l border-border/40 bg-gradient-to-br from-sky-50 via-sky-100/40 to-indigo-50 p-8 lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-r-lg dark:from-slate-900 dark:via-sky-950/40 dark:to-slate-900"
                 >
-                    <div class="flex flex-col items-center justify-center text-center p-6 space-y-4">
+                    <div
+                        class="flex flex-col items-center justify-center space-y-4 p-6 text-center"
+                    >
                         <img
                             src="/images/logo.png"
                             alt="Trackly Logo"
-                            class="max-w-[280px] w-full object-contain dark:hidden drop-shadow-xs"
+                            class="w-full max-w-[280px] object-contain drop-shadow-xs dark:hidden"
                         />
                         <img
                             src="/images/logo-dark.png"
                             alt="Trackly Logo"
-                            class="max-w-[280px] w-full object-contain hidden dark:block drop-shadow-md"
+                            class="hidden w-full max-w-[280px] object-contain drop-shadow-md dark:block"
                         />
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
+                        <div
+                            class="inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-700 dark:text-sky-300"
+                        >
                             <span>Job Application Tracker</span>
                         </div>
                     </div>

@@ -51,7 +51,9 @@ const props = defineProps<{
     stats: DashboardStats;
     recentJobs: TrackedJob[];
     cvs: Cv[];
-    upcomingReminders: (JobReminder & { trackedJob?: { id: number; jobTitle: string; companyName: string } })[];
+    upcomingReminders: (JobReminder & {
+        trackedJob?: { id: number; jobTitle: string; companyName: string };
+    })[];
     statuses: TrackedJobStatus[];
 }>();
 
@@ -71,7 +73,7 @@ function updateJobStatus(job: TrackedJob, newStatus: TrackedJobStatus) {
         { status: newStatus },
         {
             preserveScroll: true,
-        }
+        },
     );
 }
 
@@ -121,24 +123,33 @@ function formatDate(dateStr?: string | null): string {
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Optional Onboarding Banner when no default CV exists -->
         <div
-            v-if="!user.default_cv_id && cvs.length === 0 && showOnboardingBanner"
-            class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-primary/20 bg-primary/5 text-foreground shadow-xs"
+            v-if="
+                !user.default_cv_id && cvs.length === 0 && showOnboardingBanner
+            "
+            class="flex flex-col justify-between gap-4 rounded-xl border border-primary/20 bg-primary/5 p-4 text-foreground shadow-xs sm:flex-row sm:items-center"
         >
             <div class="flex items-start gap-3">
-                <div class="rounded-full bg-primary/10 p-2 text-primary shrink-0">
+                <div
+                    class="shrink-0 rounded-full bg-primary/10 p-2 text-primary"
+                >
                     <FileUp class="size-5" />
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold">Optional: Upload your default resume</h3>
+                    <h3 class="text-sm font-semibold">
+                        Optional: Upload your default resume
+                    </h3>
                     <p class="text-xs text-muted-foreground">
-                        Set a default CV once, and it will automatically be attached to any new job application with one click.
+                        Set a default CV once, and it will automatically be
+                        attached to any new job application with one click.
                     </p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 self-start sm:self-auto shrink-0">
+            <div
+                class="flex shrink-0 items-center gap-2 self-start sm:self-auto"
+            >
                 <Link
                     href="/onboarding/cv"
-                    class="inline-flex items-center justify-center rounded-md text-xs font-medium bg-primary text-primary-foreground h-8 px-3 hover:bg-primary/90 transition-colors shadow-xs"
+                    class="inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
                 >
                     Upload Resume
                 </Link>
@@ -154,20 +165,25 @@ function formatDate(dateStr?: string | null): string {
         </div>
 
         <!-- Top Greeting Bar & Quick Link to Add Application -->
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                <h1
+                    class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+                >
                     Welcome back, {{ user.firstName || user.name }}
                 </h1>
                 <p class="text-sm text-muted-foreground">
-                    Here is an overview of your job applications and upcoming milestones.
+                    Here is an overview of your job applications and upcoming
+                    milestones.
                 </p>
             </div>
 
             <div class="flex items-center gap-2.5 self-start sm:self-auto">
                 <Link
                     href="/jobs/create"
-                    class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground h-9 px-4 py-2 hover:bg-primary/90 transition-colors shadow-xs"
+                    class="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
                 >
                     <Plus class="size-4" />
                     <span>Add Application</span>
@@ -176,7 +192,7 @@ function formatDate(dateStr?: string | null): string {
                     :href="logout()"
                     as="button"
                     @click="handleLogout"
-                    class="inline-flex items-center justify-center gap-1.5 rounded-md text-sm font-medium border border-input bg-background hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 text-muted-foreground h-9 px-3.5 py-2 transition-colors shadow-xs"
+                    class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-input bg-background px-3.5 py-2 text-sm font-medium text-muted-foreground shadow-xs transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
                     title="Log out"
                     data-test="dashboard-logout-button"
                 >
@@ -189,66 +205,92 @@ function formatDate(dateStr?: string | null): string {
         <!-- 4 Key Metric Cards -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Card>
-                <CardHeader class="flex flex-row items-center justify-between pb-2">
-                    <CardTitle class="text-sm font-medium text-muted-foreground">
+                <CardHeader
+                    class="flex flex-row items-center justify-between pb-2"
+                >
+                    <CardTitle
+                        class="text-sm font-medium text-muted-foreground"
+                    >
                         Total Tracked
                     </CardTitle>
                     <Briefcase class="size-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <div class="text-2xl font-bold">{{ stats.total }}</div>
-                    <p class="text-xs text-muted-foreground mt-1">
+                    <p class="mt-1 text-xs text-muted-foreground">
                         {{ stats.applied }} currently applied
                     </p>
                 </CardContent>
             </Card>
 
             <Card>
-                <CardHeader class="flex flex-row items-center justify-between pb-2">
-                    <CardTitle class="text-sm font-medium text-muted-foreground">
+                <CardHeader
+                    class="flex flex-row items-center justify-between pb-2"
+                >
+                    <CardTitle
+                        class="text-sm font-medium text-muted-foreground"
+                    >
                         Interviews
                     </CardTitle>
-                    <Calendar class="size-4 text-purple-600 dark:text-purple-400" />
+                    <Calendar
+                        class="size-4 text-purple-600 dark:text-purple-400"
+                    />
                 </CardHeader>
                 <CardContent>
-                    <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    <div
+                        class="text-2xl font-bold text-purple-600 dark:text-purple-400"
+                    >
                         {{ stats.interview }}
                     </div>
-                    <p class="text-xs text-muted-foreground mt-1">
+                    <p class="mt-1 text-xs text-muted-foreground">
                         Active conversation stages
                     </p>
                 </CardContent>
             </Card>
 
             <Card>
-                <CardHeader class="flex flex-row items-center justify-between pb-2">
-                    <CardTitle class="text-sm font-medium text-muted-foreground">
+                <CardHeader
+                    class="flex flex-row items-center justify-between pb-2"
+                >
+                    <CardTitle
+                        class="text-sm font-medium text-muted-foreground"
+                    >
                         Job Offers
                     </CardTitle>
-                    <CheckCircle2 class="size-4 text-emerald-600 dark:text-emerald-400" />
+                    <CheckCircle2
+                        class="size-4 text-emerald-600 dark:text-emerald-400"
+                    />
                 </CardHeader>
                 <CardContent>
-                    <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                    <div
+                        class="text-2xl font-bold text-emerald-600 dark:text-emerald-400"
+                    >
                         {{ stats.offer }}
                     </div>
-                    <p class="text-xs text-muted-foreground mt-1">
+                    <p class="mt-1 text-xs text-muted-foreground">
                         Offers extended
                     </p>
                 </CardContent>
             </Card>
 
             <Card>
-                <CardHeader class="flex flex-row items-center justify-between pb-2">
-                    <CardTitle class="text-sm font-medium text-muted-foreground">
+                <CardHeader
+                    class="flex flex-row items-center justify-between pb-2"
+                >
+                    <CardTitle
+                        class="text-sm font-medium text-muted-foreground"
+                    >
                         Reminders Due
                     </CardTitle>
                     <Clock class="size-4 text-amber-600 dark:text-amber-400" />
                 </CardHeader>
                 <CardContent>
-                    <div class="text-2xl font-bold text-amber-600 dark:text-amber-400">
+                    <div
+                        class="text-2xl font-bold text-amber-600 dark:text-amber-400"
+                    >
                         {{ stats.pendingReminders }}
                     </div>
-                    <p class="text-xs text-muted-foreground mt-1">
+                    <p class="mt-1 text-xs text-muted-foreground">
                         Follow-ups scheduled
                     </p>
                 </CardContent>
@@ -256,8 +298,12 @@ function formatDate(dateStr?: string | null): string {
         </div>
 
         <!-- Filter Pills Bar -->
-        <div class="flex flex-wrap items-center gap-2 border-b border-border pb-3">
-            <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-1">
+        <div
+            class="flex flex-wrap items-center gap-2 border-b border-border pb-3"
+        >
+            <span
+                class="mr-1 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+            >
                 Filter:
             </span>
             <Button
@@ -283,18 +329,23 @@ function formatDate(dateStr?: string | null): string {
         <!-- Main Content Area: Applications List & Sidebar Widgets -->
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Left 2 Cols: Tracked Applications -->
-            <div class="lg:col-span-2 space-y-4">
+            <div class="space-y-4 lg:col-span-2">
                 <Card>
-                    <CardHeader class="flex flex-row items-center justify-between">
+                    <CardHeader
+                        class="flex flex-row items-center justify-between"
+                    >
                         <div>
-                            <CardTitle class="text-lg">Recent Applications</CardTitle>
+                            <CardTitle class="text-lg"
+                                >Recent Applications</CardTitle
+                            >
                             <CardDescription>
-                                Monitor statuses and progress across your opportunities.
+                                Monitor statuses and progress across your
+                                opportunities.
                             </CardDescription>
                         </div>
                         <Link
                             href="/jobs"
-                            class="text-xs text-primary hover:underline font-medium inline-flex items-center gap-1"
+                            class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
                         >
                             <span>View All ({{ stats.total }})</span>
                             <ArrowRight class="size-3" />
@@ -306,11 +357,17 @@ function formatDate(dateStr?: string | null): string {
                             v-if="filteredJobs.length === 0"
                             class="flex flex-col items-center justify-center p-12 text-center"
                         >
-                            <div class="rounded-full bg-muted p-3 mb-3">
-                                <Briefcase class="size-6 text-muted-foreground" />
+                            <div class="mb-3 rounded-full bg-muted p-3">
+                                <Briefcase
+                                    class="size-6 text-muted-foreground"
+                                />
                             </div>
-                            <h3 class="text-base font-semibold">No applications found</h3>
-                            <p class="text-sm text-muted-foreground max-w-sm mt-1 mb-4">
+                            <h3 class="text-base font-semibold">
+                                No applications found
+                            </h3>
+                            <p
+                                class="mt-1 mb-4 max-w-sm text-sm text-muted-foreground"
+                            >
                                 {{
                                     activeFilter === 'all'
                                         ? 'Start tracking your journey by logging your first job application.'
@@ -320,7 +377,7 @@ function formatDate(dateStr?: string | null): string {
                             <Link
                                 v-if="activeFilter === 'all'"
                                 href="/jobs/create"
-                                class="inline-flex items-center justify-center gap-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground h-8 px-3 shadow-xs"
+                                class="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground shadow-xs"
                             >
                                 <Plus class="size-3.5" />
                                 Add First Job
@@ -332,13 +389,13 @@ function formatDate(dateStr?: string | null): string {
                             <div
                                 v-for="job in filteredJobs"
                                 :key="job.id"
-                                class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 hover:bg-muted/40 transition-colors"
+                                class="flex flex-col justify-between gap-4 p-4 transition-colors hover:bg-muted/40 sm:flex-row sm:items-center"
                             >
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-2">
                                         <Link
                                             :href="`/jobs/${job.id}`"
-                                            class="font-semibold text-foreground hover:text-primary transition-colors hover:underline"
+                                            class="font-semibold text-foreground transition-colors hover:text-primary hover:underline"
                                         >
                                             {{ job.jobTitle }}
                                         </Link>
@@ -354,45 +411,80 @@ function formatDate(dateStr?: string | null): string {
                                         </a>
                                     </div>
 
-                                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                        <span class="flex items-center gap-1 font-medium text-foreground/80">
+                                    <div
+                                        class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground"
+                                    >
+                                        <span
+                                            class="flex items-center gap-1 font-medium text-foreground/80"
+                                        >
                                             <Building2 class="size-3.5" />
                                             {{ job.companyName }}
                                         </span>
                                         <span>•</span>
-                                        <span>Applied: {{ formatDate(job.appliedAt) }}</span>
+                                        <span
+                                            >Applied:
+                                            {{
+                                                formatDate(job.appliedAt)
+                                            }}</span
+                                        >
                                         <span v-if="job.cv">
-                                            • CV: <span class="text-foreground/80">{{ job.cv.name || 'Resume' }}</span>
+                                            • CV:
+                                            <span class="text-foreground/80">{{
+                                                job.cv.name || 'Resume'
+                                            }}</span>
                                         </span>
-                                        <span v-if="job.contacts && job.contacts.length > 0">
-                                            • {{ job.contacts.length }} contact{{ job.contacts.length > 1 ? 's' : '' }}
+                                        <span
+                                            v-if="
+                                                job.contacts &&
+                                                job.contacts.length > 0
+                                            "
+                                        >
+                                            •
+                                            {{ job.contacts.length }} contact{{
+                                                job.contacts.length > 1
+                                                    ? 's'
+                                                    : ''
+                                            }}
                                         </span>
                                     </div>
 
                                     <p
                                         v-if="job.notes"
-                                        class="text-xs text-muted-foreground/90 line-clamp-1 italic pt-0.5"
+                                        class="line-clamp-1 pt-0.5 text-xs text-muted-foreground/90 italic"
                                     >
                                         "{{ job.notes }}"
                                     </p>
                                 </div>
 
-                                <div class="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                                <div
+                                    class="flex shrink-0 items-center gap-2 self-start sm:self-auto"
+                                >
                                     <!-- Status selector dropdown -->
                                     <select
                                         :value="job.status"
-                                        @change="updateJobStatus(job, ($event.target as HTMLSelectElement).value as TrackedJobStatus)"
-                                        class="h-8 rounded-md border text-xs px-2.5 py-0.5 font-medium transition-colors cursor-pointer"
+                                        @change="
+                                            updateJobStatus(
+                                                job,
+                                                (
+                                                    $event.target as HTMLSelectElement
+                                                ).value as TrackedJobStatus,
+                                            )
+                                        "
+                                        class="h-8 cursor-pointer rounded-md border px-2.5 py-0.5 text-xs font-medium transition-colors"
                                         :class="getStatusBadgeClass(job.status)"
                                     >
-                                        <option v-for="s in statuses" :key="s" :value="s">
+                                        <option
+                                            v-for="s in statuses"
+                                            :key="s"
+                                            :value="s"
+                                        >
                                             {{ s }}
                                         </option>
                                     </select>
 
                                     <Link
                                         :href="`/jobs/${job.id}`"
-                                        class="inline-flex items-center justify-center size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                                        class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                                         title="View Details"
                                     >
                                         <Eye class="size-4" />
@@ -400,7 +492,7 @@ function formatDate(dateStr?: string | null): string {
 
                                     <Link
                                         :href="`/jobs/${job.id}/edit`"
-                                        class="inline-flex items-center justify-center size-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                                        class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                                         title="Edit Application"
                                     >
                                         <Pencil class="size-4" />
@@ -418,7 +510,9 @@ function formatDate(dateStr?: string | null): string {
                 <Card>
                     <CardHeader class="pb-3">
                         <div class="flex items-center justify-between">
-                            <CardTitle class="text-base flex items-center gap-2">
+                            <CardTitle
+                                class="flex items-center gap-2 text-base"
+                            >
                                 <Bell class="size-4 text-amber-500" />
                                 Upcoming Reminders
                             </CardTitle>
@@ -430,7 +524,7 @@ function formatDate(dateStr?: string | null): string {
                     <CardContent class="space-y-3">
                         <div
                             v-if="upcomingReminders.length === 0"
-                            class="text-xs text-muted-foreground py-4 text-center"
+                            class="py-4 text-center text-xs text-muted-foreground"
                         >
                             No pending reminders right now.
                         </div>
@@ -438,24 +532,33 @@ function formatDate(dateStr?: string | null): string {
                             v-else
                             v-for="rem in upcomingReminders"
                             :key="rem.id"
-                            class="rounded-lg border border-border p-3 text-xs space-y-1 bg-card/60"
+                            class="space-y-1 rounded-lg border border-border bg-card/60 p-3 text-xs"
                         >
                             <Link
                                 v-if="rem.trackedJob?.id"
                                 :href="`/jobs/${rem.trackedJob.id}`"
-                                class="font-medium text-foreground hover:text-primary transition-colors block"
+                                class="block font-medium text-foreground transition-colors hover:text-primary"
                             >
-                                {{ rem.trackedJob?.jobTitle || 'Job Follow-up' }}
+                                {{
+                                    rem.trackedJob?.jobTitle || 'Job Follow-up'
+                                }}
                             </Link>
                             <div v-else class="font-medium text-foreground">
-                                {{ rem.trackedJob?.jobTitle || 'Job Follow-up' }}
+                                {{
+                                    rem.trackedJob?.jobTitle || 'Job Follow-up'
+                                }}
                             </div>
                             <div class="text-muted-foreground">
                                 {{ rem.trackedJob?.companyName || 'Company' }}
                             </div>
-                            <div class="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium pt-1">
+                            <div
+                                class="flex items-center gap-1 pt-1 font-medium text-amber-600 dark:text-amber-400"
+                            >
                                 <Clock class="size-3" />
-                                <span>Due: {{ formatDate(rem.scheduled_at) }}</span>
+                                <span
+                                    >Due:
+                                    {{ formatDate(rem.scheduled_at) }}</span
+                                >
                             </div>
                         </div>
                     </CardContent>
@@ -463,17 +566,25 @@ function formatDate(dateStr?: string | null): string {
 
                 <!-- CVs & Quick Tips -->
                 <Card>
-                    <CardHeader class="pb-3 flex flex-row items-center justify-between">
-                        <CardTitle class="text-base flex items-center gap-2">
+                    <CardHeader
+                        class="flex flex-row items-center justify-between pb-3"
+                    >
+                        <CardTitle class="flex items-center gap-2 text-base">
                             <FileText class="size-4 text-blue-500" />
                             Your Resumes / CVs
                         </CardTitle>
-                        <Link href="/cvs" class="text-xs text-primary hover:underline font-medium">
+                        <Link
+                            href="/cvs"
+                            class="text-xs font-medium text-primary hover:underline"
+                        >
                             Manage
                         </Link>
                     </CardHeader>
                     <CardContent class="space-y-2 text-xs">
-                        <div v-if="cvs.length === 0" class="text-muted-foreground py-2 text-center">
+                        <div
+                            v-if="cvs.length === 0"
+                            class="py-2 text-center text-muted-foreground"
+                        >
                             No CVs attached yet.
                         </div>
                         <div
@@ -494,8 +605,14 @@ function formatDate(dateStr?: string | null): string {
                             </Badge>
                         </div>
 
-                        <div class="pt-2 text-muted-foreground border-t border-border mt-3">
-                            <span class="font-semibold text-foreground">Tip:</span> Set a default CV to automatically attach it when creating new job applications.
+                        <div
+                            class="mt-3 border-t border-border pt-2 text-muted-foreground"
+                        >
+                            <span class="font-semibold text-foreground"
+                                >Tip:</span
+                            >
+                            Set a default CV to automatically attach it when
+                            creating new job applications.
                         </div>
                     </CardContent>
                 </Card>

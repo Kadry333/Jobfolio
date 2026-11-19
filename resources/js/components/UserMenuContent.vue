@@ -38,9 +38,13 @@ defineProps<Props>();
             </Link>
         </DropdownMenuItem>
         <DropdownMenuItem :as-child="true">
-            <Link class="block w-full cursor-pointer" href="/settings/appearance" prefetch>
+            <Link
+                class="block w-full cursor-pointer"
+                href="/settings/appearance"
+                prefetch
+            >
                 <Sun class="mr-2 h-4 w-4 dark:hidden" />
-                <Moon class="mr-2 h-4 w-4 hidden dark:inline-block" />
+                <Moon class="mr-2 hidden h-4 w-4 dark:inline-block" />
                 Appearance
             </Link>
         </DropdownMenuItem>

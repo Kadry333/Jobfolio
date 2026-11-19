@@ -1,12 +1,34 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
-import { ArrowLeft, CheckCircle2, FileText, Plus, Star, Trash2, UploadCloud } from '@lucide/vue';
+import {
+    ArrowLeft,
+    CheckCircle2,
+    FileText,
+    Plus,
+    Star,
+    Trash2,
+    UploadCloud,
+} from '@lucide/vue';
 import { ref } from 'vue';
 import { toast } from 'vue-sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { dashboard } from '@/routes';
@@ -128,13 +150,18 @@ function confirmDeleteCv() {
     <Head title="CVs & Resumes - Trackly" />
 
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                <h1
+                    class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+                >
                     Resumes & CVs
                 </h1>
                 <p class="text-sm text-muted-foreground">
-                    Upload tailored CV versions to link to your job applications.
+                    Upload tailored CV versions to link to your job
+                    applications.
                 </p>
             </div>
 
@@ -182,7 +209,10 @@ function confirmDeleteCv() {
                                 v-model="isDefault"
                                 class="rounded border-border"
                             />
-                            <Label for="modalIsDefault" class="text-xs cursor-pointer">
+                            <Label
+                                for="modalIsDefault"
+                                class="cursor-pointer text-xs"
+                            >
                                 Set as my default CV for future applications
                             </Label>
                         </div>
@@ -208,20 +238,27 @@ function confirmDeleteCv() {
             </Dialog>
         </div>
 
-        <div v-if="cvs.length === 0" class="flex flex-col items-center justify-center p-12 text-center border rounded-xl bg-card">
-            <div class="rounded-full bg-muted p-3 mb-3">
+        <div
+            v-if="cvs.length === 0"
+            class="flex flex-col items-center justify-center rounded-xl border bg-card p-12 text-center"
+        >
+            <div class="mb-3 rounded-full bg-muted p-3">
                 <FileText class="size-6 text-muted-foreground" />
             </div>
             <h3 class="text-base font-semibold">No resumes uploaded yet</h3>
-            <p class="text-sm text-muted-foreground max-w-sm mt-1 mb-4">
-                Upload your main resume to quickly attach it when applying to jobs.
+            <p class="mt-1 mb-4 max-w-sm text-sm text-muted-foreground">
+                Upload your main resume to quickly attach it when applying to
+                jobs.
             </p>
             <Button size="sm" @click="isUploadModalOpen = true">
                 Upload First Resume
             </Button>
         </div>
 
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+            v-else
+            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+        >
             <Card
                 v-for="cv in cvs"
                 :key="cv.id"
@@ -231,7 +268,9 @@ function confirmDeleteCv() {
                 <CardHeader class="pb-3">
                     <div class="flex items-start justify-between gap-2">
                         <div class="flex items-center gap-2">
-                            <div class="rounded-md bg-primary/10 p-2 text-primary">
+                            <div
+                                class="rounded-md bg-primary/10 p-2 text-primary"
+                            >
                                 <FileText class="size-4" />
                             </div>
                             <div>
@@ -244,20 +283,26 @@ function confirmDeleteCv() {
                             </div>
                         </div>
 
-                        <Badge v-if="cv.is_default" variant="default" class="gap-1 text-[11px]">
+                        <Badge
+                            v-if="cv.is_default"
+                            variant="default"
+                            class="gap-1 text-[11px]"
+                        >
                             <Star class="size-3 fill-current" />
                             <span>Default</span>
                         </Badge>
                     </div>
                 </CardHeader>
 
-                <CardContent class="flex items-center justify-between pt-2 border-t border-border/50 text-xs">
+                <CardContent
+                    class="flex items-center justify-between border-t border-border/50 pt-2 text-xs"
+                >
                     <div>
                         <a
                             v-if="cv.file_url"
                             :href="cv.file_url"
                             target="_blank"
-                            class="text-primary hover:underline font-medium"
+                            class="font-medium text-primary hover:underline"
                         >
                             View File
                         </a>
@@ -292,15 +337,20 @@ function confirmDeleteCv() {
     <Dialog v-model:open="isDeleteCvModalOpen">
         <DialogContent class="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle class="text-lg font-bold text-destructive">Delete Resume</DialogTitle>
+                <DialogTitle class="text-lg font-bold text-destructive"
+                    >Delete Resume</DialogTitle
+                >
                 <DialogDescription class="pt-2 text-sm text-foreground/80">
                     Are you sure you want to delete
-                    <strong class="font-semibold text-foreground">"{{ cvToDelete?.name || 'this CV' }}"</strong>?
-                    <br /><br />
+                    <strong class="font-semibold text-foreground"
+                        >"{{ cvToDelete?.name || 'this CV' }}"</strong
+                    >? <br /><br />
                     This file will be permanently removed from storage.
                 </DialogDescription>
             </DialogHeader>
-            <DialogFooter class="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end pt-4">
+            <DialogFooter
+                class="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end"
+            >
                 <Button
                     type="button"
                     variant="outline"
