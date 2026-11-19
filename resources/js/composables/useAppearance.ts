@@ -83,7 +83,11 @@ export function initializeTheme(): void {
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);
 }
 
-const appearance = ref<Appearance>('system');
+const appearance = ref<Appearance>(
+    typeof window !== 'undefined'
+        ? (getStoredAppearance() || 'system')
+        : 'system',
+);
 
 export function useAppearance(): UseAppearanceReturn {
     onMounted(() => {

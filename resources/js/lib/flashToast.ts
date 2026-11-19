@@ -7,10 +7,19 @@ export function initializeFlashToast(): void {
         const flash = (event as CustomEvent).detail?.flash;
         const data = flash?.toast as FlashToast | undefined;
 
-        if (!data) {
-            return;
+        if (data) {
+            toast[data.type](data.message);
         }
+    });
 
-        toast[data.type](data.message);
+    router.on('success', (event) => {
+        const page = event.detail.page;
+        const flash = (page.props as Record<string, any>)?.flash;
+        if (flash?.success) {
+            toast.success(flash.success);
+        }
+        if (flash?.error) {
+            toast.error(flash.error);
+        }
     });
 }

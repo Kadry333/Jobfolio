@@ -32,19 +32,35 @@ defineOptions({
         class="flex flex-col gap-6"
     >
         <div class="grid gap-6">
-            <div class="grid gap-2">
-                <Label for="name">Name</Label>
-                <Input
-                    id="name"
-                    type="text"
-                    required
-                    v-focus
-                    :tabindex="1"
-                    autocomplete="name"
-                    name="name"
-                    placeholder="Full name"
-                />
-                <InputError :message="errors.name" />
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid gap-2">
+                    <Label for="firstName">First name</Label>
+                    <Input
+                        id="firstName"
+                        type="text"
+                        required
+                        v-focus
+                        :tabindex="1"
+                        autocomplete="given-name"
+                        name="firstName"
+                        placeholder="Jane"
+                    />
+                    <InputError :message="errors.firstName" />
+                </div>
+
+                <div class="grid gap-2">
+                    <Label for="lastName">Last name</Label>
+                    <Input
+                        id="lastName"
+                        type="text"
+                        required
+                        :tabindex="2"
+                        autocomplete="family-name"
+                        name="lastName"
+                        placeholder="Doe"
+                    />
+                    <InputError :message="errors.lastName" />
+                </div>
             </div>
 
             <div class="grid gap-2">
@@ -53,7 +69,7 @@ defineOptions({
                     id="email"
                     type="email"
                     required
-                    :tabindex="2"
+                    :tabindex="3"
                     autocomplete="email"
                     name="email"
                     placeholder="email@example.com"
@@ -66,7 +82,7 @@ defineOptions({
                 <PasswordInput
                     id="password"
                     required
-                    :tabindex="3"
+                    :tabindex="4"
                     autocomplete="new-password"
                     name="password"
                     placeholder="Password"
@@ -80,7 +96,7 @@ defineOptions({
                 <PasswordInput
                     id="password_confirmation"
                     required
-                    :tabindex="4"
+                    :tabindex="5"
                     autocomplete="new-password"
                     name="password_confirmation"
                     placeholder="Confirm password"
@@ -92,7 +108,7 @@ defineOptions({
             <Button
                 type="submit"
                 class="mt-2 w-full"
-                tabindex="5"
+                tabindex="6"
                 :disabled="processing"
                 data-test="register-user-button"
             >

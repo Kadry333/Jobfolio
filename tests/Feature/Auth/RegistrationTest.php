@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Mail\WelcomeMail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
@@ -26,6 +28,8 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register()
     {
+        Mail::fake();
+
         $response = $this->post(route('register.store'), [
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -35,5 +39,9 @@ class RegistrationTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
+
+        Mail::assertSent(WelcomeMail::class, function (WelcomeMail $mail) {
+            return $mail->hasTo('test@example.com');
+        });
     }
 }

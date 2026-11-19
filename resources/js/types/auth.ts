@@ -1,7 +1,10 @@
 export type User = {
     id: number;
     name: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    default_cv_id?: number | null;
     avatar?: string;
     email_verified_at: string | null;
     /* @chisel-2fa */

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from '@lucide/vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { BookOpen, Folder, LayoutGrid, LogOut, Menu, Search } from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,7 +36,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { dashboard, logout } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -73,6 +74,9 @@ const rightNavItems: NavItem[] = [
         icon: BookOpen,
     },
 ];
+const handleLogout = () => {
+    router.flushAll();
+};
 </script>
 
 <template>
@@ -237,6 +241,26 @@ const rightNavItems: NavItem[] = [
                             </template>
                         </div>
                     </div>
+
+                    <ThemeToggle />
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        as-child
+                        class="h-9 gap-1.5 px-3 text-xs font-medium text-muted-foreground hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive transition-colors"
+                    >
+                        <Link
+                            :href="logout()"
+                            as="button"
+                            @click="handleLogout"
+                            data-test="header-logout-button"
+                            title="Log out of Trackly"
+                        >
+                            <LogOut class="size-3.5" />
+                            <span class="hidden sm:inline">Log out</span>
+                        </Link>
+                    </Button>
 
                     <DropdownMenu>
                         <DropdownMenuTrigger :as-child="true">

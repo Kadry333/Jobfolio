@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { LogOut, Settings } from '@lucide/vue';
+import { LogOut, Moon, Settings, Sun } from '@lucide/vue';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -35,6 +35,13 @@ defineProps<Props>();
             <Link class="block w-full cursor-pointer" :href="edit()" prefetch>
                 <Settings class="mr-2 h-4 w-4" />
                 Settings
+            </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem :as-child="true">
+            <Link class="block w-full cursor-pointer" href="/settings/appearance" prefetch>
+                <Sun class="mr-2 h-4 w-4 dark:hidden" />
+                <Moon class="mr-2 h-4 w-4 hidden dark:inline-block" />
+                Appearance
             </Link>
         </DropdownMenuItem>
     </DropdownMenuGroup>
