@@ -5,18 +5,18 @@ nixPkgs = ["php83", "php83Packages.composer", "nodejs_20"]
 
 [phases.install]
 cmds = [
-  "composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader",
-  "npm ci"
+    "composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader",
+    "npm ci",
 ]
 
 [phases.build]
 cmds = [
-  "npm run build",
-  "php artisan storage:link || true",
-  "mkdir -p database && touch database/database.sqlite",
-  "php artisan migrate --force",
-  "php artisan view:cache || true",
-  "php artisan route:cache || true"
+    "npm run build",
+    "php artisan storage:link || true",
+    "mkdir -p database && touch database/database.sqlite",
+    "php artisan migrate --force",
+    "php artisan view:cache || true",
+    "php artisan route:cache || true",
 ]
 
 [start]
