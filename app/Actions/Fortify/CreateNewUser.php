@@ -41,9 +41,9 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         try {
-            Mail::to($user->email)->send(new WelcomeMail($user));
+            Mail::to($user->email)->queue(new WelcomeMail($user));
         } catch (\Throwable $e) {
-            Log::error('Failed to send welcome email to '.$user->email.': '.$e->getMessage());
+            Log::error('Failed to queue welcome email to '.$user->email.': '.$e->getMessage());
         }
 
         return $user;

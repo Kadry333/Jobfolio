@@ -82,7 +82,13 @@ const rightNavItems: NavItem[] = [
     },
 ];
 const handleLogout = () => {
-    router.flushAll();
+    router.post(
+        logout(),
+        {},
+        {
+            onFinish: () => router.flushAll(),
+        },
+    );
 };
 </script>
 
@@ -252,21 +258,15 @@ const handleLogout = () => {
                     <ThemeToggle />
 
                     <Button
-                        variant="destructive"
+                        type="button"
                         size="sm"
-                        as-child
-                        class="h-9 gap-1.5 px-3 text-xs font-semibold shadow-xs"
+                        @click="handleLogout"
+                        class="h-9 cursor-pointer gap-1.5 border border-red-600 bg-red-600 px-3 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-red-700 active:bg-red-800 dark:border-rose-900/60 dark:bg-rose-950/80 dark:text-rose-200 dark:hover:bg-rose-900/90 dark:hover:text-white"
+                        data-test="header-logout-button"
+                        title="Log out of jobfolio"
                     >
-                        <Link
-                            :href="logout()"
-                            as="button"
-                            @click="handleLogout"
-                            data-test="header-logout-button"
-                            title="Log out of jobfolio"
-                        >
-                            <LogOut class="size-3.5" />
-                            <span class="hidden sm:inline">Log out</span>
-                        </Link>
+                        <LogOut class="size-3.5" />
+                        <span class="hidden sm:inline">Log out</span>
                     </Button>
 
                     <DropdownMenu>

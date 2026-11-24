@@ -40,7 +40,7 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
 
-        Mail::assertSent(WelcomeMail::class, function (WelcomeMail $mail) {
+        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
             return $mail->hasTo('test@example.com');
         });
     }
