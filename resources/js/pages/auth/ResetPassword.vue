@@ -60,6 +60,10 @@ const inputEmail = ref(props.email);
                     placeholder="Password"
                     :passwordrules="passwordRules"
                 />
+                <p class="text-xs text-muted-foreground">
+                    Must be at least 10 characters and include uppercase,
+                    lowercase, numbers, and symbols.
+                </p>
                 <InputError :message="errors.password" />
             </div>
 

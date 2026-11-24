@@ -54,7 +54,7 @@ import { register } from '@/routes';
                 <div
                     class="flex-1 rounded-br-lg rounded-bl-lg bg-white p-6 pb-12 text-[13px] leading-[20px] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-tl-lg lg:rounded-br-none lg:p-20 dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"
                 >
-                    <h1 class="mb-1 text-2xl font-bold">Trackly</h1>
+                    <h1 class="mb-1 text-2xl font-bold">jobfolio</h1>
                     <p class="mb-4 text-[#706f6c] dark:text-[#A1A09A]">
                         Your personal job application & interview tracker. Never
                         lose track of an opportunity, recruiter contact, or
@@ -121,12 +121,12 @@ import { register } from '@/routes';
                     >
                         <img
                             src="/images/logo.png"
-                            alt="Trackly Logo"
+                            alt="jobfolio Logo"
                             class="w-full max-w-[280px] object-contain drop-shadow-xs dark:hidden"
                         />
                         <img
                             src="/images/logo-dark.png"
-                            alt="Trackly Logo"
+                            alt="jobfolio Logo"
                             class="hidden w-full max-w-[280px] object-contain drop-shadow-md dark:block"
                         />
                         <div

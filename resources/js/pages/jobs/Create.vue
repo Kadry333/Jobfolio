@@ -194,7 +194,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Add Job Application - Trackly" />
+    <Head title="Add Job Application - jobfolio" />
 
     <div class="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Back Link & Header -->
@@ -266,15 +266,26 @@ function submit() {
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="space-y-1.5">
                             <Label for="status">Current Status *</Label>
-                            <!-- <select
+                            <select
                                 id="status"
                                 v-model="form.status"
-                                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring capitalize"
+                                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm capitalize shadow-xs transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none dark:bg-zinc-900"
+                                required
                             >
-                                <option v-for="s in statuses" :key="s" :value="s">
+                                <option
+                                    v-for="s in statuses"
+                                    :key="s"
+                                    :value="s"
+                                >
                                     {{ s }}
                                 </option>
-                            </select> -->
+                            </select>
+                            <span
+                                v-if="errors.status"
+                                class="text-xs text-destructive"
+                            >
+                                {{ errors.status }}
+                            </span>
                         </div>
 
                         <div class="space-y-1.5">
@@ -288,12 +299,14 @@ function submit() {
                     </div>
 
                     <div class="space-y-1.5">
-                        <Label for="jobURL">Job Posting URL (Optional)</Label>
+                        <Label for="jobURL"
+                            >Job URL or WhatsApp Number (Optional)</Label
+                        >
                         <Input
                             id="jobURL"
-                            type="url"
+                            type="text"
                             v-model="form.jobURL"
-                            placeholder="https://company.com/careers/role"
+                            placeholder="https://company.com/job or +201012345678"
                         />
                         <span
                             v-if="errors.jobURL"

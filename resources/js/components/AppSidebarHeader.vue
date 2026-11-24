@@ -36,17 +36,17 @@ const handleLogout = () => {
         <div class="flex items-center gap-2">
             <ThemeToggle />
             <Button
-                variant="outline"
+                variant="destructive"
                 size="sm"
                 as-child
-                class="h-9 gap-1.5 px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive"
+                class="h-9 gap-1.5 px-3 text-xs font-semibold shadow-xs"
             >
                 <Link
                     :href="logout()"
                     as="button"
                     @click="handleLogout"
                     data-test="header-logout-button"
-                    title="Log out of Trackly"
+                    title="Log out of jobfolio"
                 >
                     <LogOut class="size-3.5" />
                     <span class="hidden sm:inline">Log out</span>

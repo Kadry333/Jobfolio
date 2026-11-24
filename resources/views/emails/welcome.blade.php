@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Trackly</title>
+    <title>Welcome to jobfolio</title>
     <style>
         body {
             margin: 0;
@@ -118,7 +118,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="brand">🎯 Trackly</div>
+            <div class="brand">🎯 jobfolio</div>
             <div>
                 <span class="badge-pill">Job Application Tracker</span>
             </div>
@@ -127,10 +127,10 @@
         <div class="content">
             <h1>Welcome aboard, {{ $user->firstName }}! 👋</h1>
             <p>
-                Thanks for signing up for Trackly. Your account is ready, and you can jump straight into organizing your job search.
+                Thanks for signing up for jobfolio. Your account is ready, and you can jump straight into organizing your job search.
             </p>
 
-            <p>Here is what you can do with Trackly right away:</p>
+            <p>Here is what you can do with jobfolio right away:</p>
 
             <ul class="features-list">
                 <li class="feature-item">
@@ -172,7 +172,7 @@
 
         <div class="footer">
             <p style="margin: 0;">
-                Sent with ❤️ by <strong>Trackly</strong> &bull;
+                Sent with ❤️ by <strong>jobfolio</strong> &bull;
                 <a href="{{ url('/dashboard') }}">Dashboard</a> &bull;
                 <a href="{{ url('/settings/profile') }}">Account Settings</a>
             </p>

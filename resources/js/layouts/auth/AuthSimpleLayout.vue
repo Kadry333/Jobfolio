@@ -32,7 +32,7 @@ defineProps<{
                         </div>
                         <span
                             class="text-2xl font-bold tracking-tight text-foreground"
-                            >Trackly</span
+                            >jobfolio</span
                         >
                     </Link>
                     <div class="space-y-1.5 text-center">

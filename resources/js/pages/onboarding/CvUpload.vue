@@ -84,7 +84,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Upload Your Default CV - Trackly" />
+    <Head title="Upload Your Default CV - jobfolio" />
 
     <div
         class="flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4 sm:p-6"
@@ -96,7 +96,7 @@ function submit() {
                     class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
                 >
                     <Sparkles class="size-3.5" />
-                    <span>Welcome to Trackly</span>
+                    <span>Welcome to jobfolio</span>
                 </div>
                 <h1
                     class="text-3xl font-extrabold tracking-tight text-foreground"
@@ -217,7 +217,8 @@ function submit() {
             </Card>
 
             <div class="text-center text-xs text-muted-foreground">
-                You can manage all your CVs anytime from your Trackly dashboard.
+                You can manage all your CVs anytime from your jobfolio
+                dashboard.
             </div>
         </div>
     </div>

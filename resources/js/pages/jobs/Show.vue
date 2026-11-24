@@ -11,6 +11,7 @@ import {
     FileText,
     Globe,
     Mail,
+    MessageCircle,
     Pencil,
     Plus,
     Trash2,
@@ -28,6 +29,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { resolveJobUrl } from '@/lib/utils';
 import {
     Dialog,
     DialogContent,
@@ -76,6 +78,8 @@ const availableContactStatuses = computed<JobContactStatus[]>(() => {
         ? props.contactStatuses
         : ['will contact', 'message sent', 'replied', 'no response'];
 });
+
+const jobLink = computed(() => resolveJobUrl(props.job.jobURL));
 
 const isDeleteJobModalOpen = ref(false);
 const isDeletingJob = ref(false);
@@ -279,7 +283,7 @@ function formatDate(dateStr?: string | null): string {
 </script>
 
 <template>
-    <Head :title="`${job.jobTitle} at ${job.companyName} - Trackly`" />
+    <Head :title="`${job.jobTitle} at ${job.companyName} - jobfolio`" />
 
     <div class="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Back Navigation & Top Actions -->
@@ -330,13 +334,26 @@ function formatDate(dateStr?: string | null): string {
                             </h1>
                             <a
                                 v-if="job.jobURL"
-                                :href="job.jobURL"
+                                :href="jobLink.href"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="text-muted-foreground transition-colors hover:text-primary"
-                                title="Open original job posting"
+                                class="transition-colors"
+                                :class="
+                                    jobLink.isWhatsApp
+                                        ? 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400'
+                                        : 'text-muted-foreground hover:text-primary'
+                                "
+                                :title="
+                                    jobLink.isWhatsApp
+                                        ? 'Chat on WhatsApp'
+                                        : 'Open original job posting'
+                                "
                             >
-                                <ExternalLink class="size-5" />
+                                <MessageCircle
+                                    v-if="jobLink.isWhatsApp"
+                                    class="size-5"
+                                />
+                                <ExternalLink v-else class="size-5" />
                             </a>
                         </div>
 
@@ -418,17 +435,34 @@ function formatDate(dateStr?: string | null): string {
                     <span
                         class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
                     >
-                        Job Posting
+                        {{
+                            jobLink.isWhatsApp
+                                ? 'WhatsApp Contact'
+                                : 'Job Posting'
+                        }}
                     </span>
                     <div v-if="job.jobURL" class="pt-0.5">
                         <a
-                            :href="job.jobURL"
+                            :href="jobLink.href"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                            class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:underline"
+                            :class="
+                                jobLink.isWhatsApp
+                                    ? 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400'
+                                    : 'text-primary'
+                            "
                         >
-                            <span>Open Link</span>
-                            <ExternalLink class="size-3.5" />
+                            <MessageCircle
+                                v-if="jobLink.isWhatsApp"
+                                class="size-4"
+                            />
+                            <ExternalLink v-else class="size-3.5" />
+                            <span>{{
+                                jobLink.isWhatsApp
+                                    ? 'Chat on WhatsApp'
+                                    : 'Open Link'
+                            }}</span>
                         </a>
                     </div>
                     <p v-else class="pt-0.5 text-sm text-muted-foreground">

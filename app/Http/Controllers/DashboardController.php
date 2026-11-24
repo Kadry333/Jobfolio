@@ -15,7 +15,7 @@ class DashboardController extends Controller
     ) {}
 
     /**
-     * Display the Trackly dashboard.
+     * Display the jobfolio dashboard.
      */
     public function index(Request $request): Response
     {

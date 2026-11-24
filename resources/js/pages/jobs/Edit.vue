@@ -83,7 +83,7 @@ function submit() {
 </script>
 
 <template>
-    <Head :title="`Edit ${job.jobTitle} - Trackly`" />
+    <Head :title="`Edit ${job.jobTitle} - jobfolio`" />
 
     <div class="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 p-4 md:p-6">
         <div class="space-y-2">
@@ -175,12 +175,12 @@ function submit() {
                     </div>
 
                     <div class="space-y-1.5">
-                        <Label for="jobURL">Job Posting URL</Label>
+                        <Label for="jobURL">Job URL or WhatsApp Number</Label>
                         <Input
                             id="jobURL"
-                            type="url"
+                            type="text"
                             v-model="form.jobURL"
-                            placeholder="https://..."
+                            placeholder="https://company.com/job or +201012345678"
                         />
                         <span
                             v-if="errors.jobURL"

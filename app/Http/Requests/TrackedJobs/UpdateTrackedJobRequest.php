@@ -5,6 +5,7 @@ namespace App\Http\Requests\TrackedJobs;
 use App\Enums\TrackedJobStatus;
 use App\Models\TrackedJob;
 use App\Models\User;
+use App\Rules\UrlOrWhatsApp;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -36,7 +37,7 @@ class UpdateTrackedJobRequest extends FormRequest
         return [
             'jobTitle' => ['sometimes', 'required', 'string', 'max:255'],
             'companyName' => ['sometimes', 'required', 'string', 'max:255'],
-            'jobURL' => ['nullable', 'url', 'max:2048'],
+            'jobURL' => ['nullable', new UrlOrWhatsApp, 'max:2048'],
             'status' => ['sometimes', 'required', Rule::enum(TrackedJobStatus::class)],
             'cv_id' => [
                 'nullable',

@@ -15,7 +15,7 @@ defineProps<Props>();
 <template>
     <img
         src="/images/logo-icon.png"
-        alt="Trackly Logo"
+        alt="jobfolio Logo"
         :class="['inline-block object-contain', className, $attrs.class]"
         v-bind="$attrs"
     />

@@ -13,7 +13,7 @@ import {
     Eye,
     FileText,
     FileUp,
-    LogOut,
+    MessageCircle,
     Pencil,
     Plus,
 } from '@lucide/vue';
@@ -27,7 +27,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { dashboard, logout } from '@/routes';
+import { resolveJobUrl } from '@/lib/utils';
+import { dashboard } from '@/routes';
 import type {
     Cv,
     DashboardStats,
@@ -62,10 +63,6 @@ const user = computed(() => page.props.auth.user);
 
 const showOnboardingBanner = ref(true);
 const activeFilter = ref<string>('all');
-
-const handleLogout = () => {
-    router.flushAll();
-};
 
 function updateJobStatus(job: TrackedJob, newStatus: TrackedJobStatus) {
     router.patch(
@@ -118,7 +115,7 @@ function formatDate(dateStr?: string | null): string {
 </script>
 
 <template>
-    <Head title="Dashboard - Trackly" />
+    <Head title="Dashboard - jobfolio" />
 
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Optional Onboarding Banner when no default CV exists -->
@@ -187,17 +184,6 @@ function formatDate(dateStr?: string | null): string {
                 >
                     <Plus class="size-4" />
                     <span>Add Application</span>
-                </Link>
-                <Link
-                    :href="logout()"
-                    as="button"
-                    @click="handleLogout"
-                    class="inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-input bg-background px-3.5 py-2 text-sm font-medium text-muted-foreground shadow-xs transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
-                    title="Log out"
-                    data-test="dashboard-logout-button"
-                >
-                    <LogOut class="size-4" />
-                    <span>Log out</span>
                 </Link>
             </div>
         </div>
@@ -401,13 +387,36 @@ function formatDate(dateStr?: string | null): string {
                                         </Link>
                                         <a
                                             v-if="job.jobURL"
-                                            :href="job.jobURL"
+                                            :href="
+                                                resolveJobUrl(job.jobURL).href
+                                            "
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            class="text-muted-foreground hover:text-foreground"
-                                            title="Open job URL"
+                                            class="transition-colors"
+                                            :class="
+                                                resolveJobUrl(job.jobURL)
+                                                    .isWhatsApp
+                                                    ? 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400'
+                                                    : 'text-muted-foreground hover:text-foreground'
+                                            "
+                                            :title="
+                                                resolveJobUrl(job.jobURL)
+                                                    .isWhatsApp
+                                                    ? 'Chat on WhatsApp'
+                                                    : 'Open job URL'
+                                            "
                                         >
-                                            <ExternalLink class="size-3.5" />
+                                            <MessageCircle
+                                                v-if="
+                                                    resolveJobUrl(job.jobURL)
+                                                        .isWhatsApp
+                                                "
+                                                class="size-3.5"
+                                            />
+                                            <ExternalLink
+                                                v-else
+                                                class="size-3.5"
+                                            />
                                         </a>
                                     </div>
 

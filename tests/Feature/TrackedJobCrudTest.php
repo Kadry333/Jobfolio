@@ -138,4 +138,58 @@ class TrackedJobCrudTest extends TestCase
             'id' => $job->id,
         ]);
     }
+
+    public function test_user_can_create_job_with_whatsapp_number(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('jobs.store'), [
+            'jobTitle' => 'Flutter Developer',
+            'companyName' => 'Cairo Tech',
+            'status' => 'will apply',
+            'jobURL' => '+201012345678',
+            'cv_selection' => 'none',
+        ]);
+
+        $response->assertRedirect(route('jobs.index'));
+        $this->assertDatabaseHas('tracked_jobs', [
+            'user_id' => $user->id,
+            'jobTitle' => 'Flutter Developer',
+            'jobURL' => '+201012345678',
+        ]);
+    }
+
+    public function test_user_can_create_job_with_url(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('jobs.store'), [
+            'jobTitle' => 'Frontend Engineer',
+            'companyName' => 'Vercel',
+            'status' => 'applied',
+            'jobURL' => 'https://company.com/careers/frontend',
+            'cv_selection' => 'none',
+        ]);
+
+        $response->assertRedirect(route('jobs.index'));
+        $this->assertDatabaseHas('tracked_jobs', [
+            'user_id' => $user->id,
+            'jobURL' => 'https://company.com/careers/frontend',
+        ]);
+    }
+
+    public function test_job_fails_validation_with_invalid_url_or_number(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('jobs.store'), [
+            'jobTitle' => 'Developer',
+            'companyName' => 'Acme',
+            'status' => 'applied',
+            'jobURL' => 'not-a-valid-url-or-number',
+            'cv_selection' => 'none',
+        ]);
+
+        $response->assertSessionHasErrors(['jobURL']);
+    }
 }

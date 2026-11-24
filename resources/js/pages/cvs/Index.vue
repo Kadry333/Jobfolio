@@ -147,7 +147,7 @@ function confirmDeleteCv() {
 </script>
 
 <template>
-    <Head title="CVs & Resumes - Trackly" />
+    <Head title="CVs & Resumes - jobfolio" />
 
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
         <div

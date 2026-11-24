@@ -11,6 +11,7 @@ import {
     ExternalLink,
     Eye,
     FileText,
+    MessageCircle,
     Pencil,
     Plus,
     Search,
@@ -27,6 +28,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { resolveJobUrl } from '@/lib/utils';
 import {
     Dialog,
     DialogContent,
@@ -185,7 +187,7 @@ function formatDate(dateStr?: string | null): string {
 </script>
 
 <template>
-    <Head title="Job Applications - Trackly" />
+    <Head title="Job Applications - jobfolio" />
 
     <div class="flex flex-1 flex-col gap-6 p-4 md:p-6">
         <!-- Header -->
@@ -296,13 +298,28 @@ function formatDate(dateStr?: string | null): string {
                                 </Link>
                                 <a
                                     v-if="job.jobURL"
-                                    :href="job.jobURL"
+                                    :href="resolveJobUrl(job.jobURL).href"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="text-muted-foreground hover:text-foreground"
-                                    title="Open job URL"
+                                    class="transition-colors"
+                                    :class="
+                                        resolveJobUrl(job.jobURL).isWhatsApp
+                                            ? 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400'
+                                            : 'text-muted-foreground hover:text-foreground'
+                                    "
+                                    :title="
+                                        resolveJobUrl(job.jobURL).isWhatsApp
+                                            ? 'Chat on WhatsApp'
+                                            : 'Open job URL'
+                                    "
                                 >
-                                    <ExternalLink class="size-3.5" />
+                                    <MessageCircle
+                                        v-if="
+                                            resolveJobUrl(job.jobURL).isWhatsApp
+                                        "
+                                        class="size-3.5"
+                                    />
+                                    <ExternalLink v-else class="size-3.5" />
                                 </a>
                             </div>
 

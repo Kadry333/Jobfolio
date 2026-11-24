@@ -71,21 +71,6 @@ const user = computed(() => page.props.auth.user);
                 </div>
             </div>
 
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full cursor-not-allowed bg-muted/60 opacity-80"
-                    :value="user.email"
-                    disabled
-                    readonly
-                />
-                <p class="text-xs text-muted-foreground">
-                    Email address cannot be changed.
-                </p>
-            </div>
-
             <div class="flex items-center gap-4">
                 <Button
                     :disabled="processing"

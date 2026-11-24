@@ -35,7 +35,7 @@ defineProps<{
                 >
                     <AppLogoIcon class="size-7" />
                 </div>
-                <span>Trackly</span>
+                <span>jobfolio</span>
             </Link>
 
             <div class="flex flex-col gap-6">

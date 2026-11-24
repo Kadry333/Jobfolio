@@ -13,11 +13,11 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
     >
         <span
             class="truncate text-base font-bold tracking-tight text-foreground"
-            >Trackly</span
+            >jobfolio</span
         >
         <span
             class="truncate text-[10px] font-medium tracking-wider text-muted-foreground uppercase"
-            >Job Tracker</span
+            >Job Application Tracker</span
         >
     </div>
 </template>

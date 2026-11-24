@@ -27,7 +27,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to Trackly! 🎉',
+            subject: 'Welcome to jobfolio! 🎉',
         );
     }
 
