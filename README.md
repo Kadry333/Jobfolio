@@ -65,27 +65,32 @@ Job searching is often chaotic, scattered across multiple job boards, spreadshee
 ## Key Features
 
 ### 1. Job Application Lifecycle Management
+
 - **Full Application CRUD:** Track job title, company name, direct posting URL or recruiter phone number, application date, and detailed interview notes.
 - **Direct WhatsApp Outreach Detection:** Smart resolution automatically detects phone numbers in the job URL field and formats direct one-click WhatsApp chat links (`wa.me`).
 - **Inline Status Toggling:** Update stage status directly from table rows without navigating into full edit screens.
 - **In-App Deletion Confirmations:** Non-blocking native UI modal dialogs preventing accidental deletions.
 
 ### 2. Resume & Document Management (CV Engine)
+
 - **Multi-Resume Storage:** Store up to 10 tailored CV files per user account with custom labels.
 - **Strict Validation:** Enforced 5MB file size limits and MIME-type restrictions (`pdf`, `doc`, `docx`).
 - **Default Resume Routing:** Automatically attach a designated default resume to new applications, with the ability to upload a new resume inline during job creation.
 - **Secure File Isolation:** Managed via Laravel Storage abstraction on protected disks.
 
 ### 3. Recruiter & Contact Outreach Tracking
+
 - **Associated Contacts:** Attach unlimited key contacts (recruiters, talent leads, interviewers) to each job application.
 - **Outreach Status Tracking:** Track outreach stages: `Will Contact`, `Message Sent`, `Replied`, `No Response`.
 - **Atomic Contact Synchronization:** Edit, add, or remove company contacts directly within the job edit workflow backed by database transactions.
 
 ### 4. Interactive Analytics & Dashboard
+
 - **Pipeline Breakdown:** Metric cards displaying Total Applications, Active Interviews, Received Offers, and Response Rates.
 - **Recent Activity Feed:** Quick-access list of the latest applications with status badges and quick view actions.
 
 ### 5. Multi-Tier Security & Rate Limiting
+
 - **Global Throttling:** 120 requests/minute for authenticated users; 60 requests/minute for guest visitors.
 - **Upload Guards:** Maximum 10 uploads/minute per user on all file upload endpoints.
 - **Auth Protection:** 5 attempts/minute brute-force throttle on `/login`, `/register`, and `/forgot-password`.
@@ -117,7 +122,7 @@ flowchart TD
         DTOs["Data Transfer Objects (DTOs)"]
         Services["Domain Services (Business Logic & Transactions)"]
         Repositories["Repository Pattern (Eloquent Abstraction)"]
-        
+
         Controllers --> Requests
         Requests --> DTOs
         DTOs --> Services
@@ -136,6 +141,7 @@ flowchart TD
 ```
 
 ### Request Lifecycle
+
 1. **HTTP Request:** The client sends an Inertia request with JSON payloads or FormData.
 2. **Middleware & Throttling:** The request passes through global/route-specific rate limiting (`throttle:global`, `throttle:uploads`) and session authentication guards.
 3. **Validation & DTO Mapping:** Dedicated `FormRequest` classes validate input parameters, which are mapped into strongly-typed `DTOs` (e.g., `TrackedJobData`, `JobContactData`).
@@ -213,6 +219,7 @@ erDiagram
 ```
 
 ### Key Relational Constraints
+
 - **`users.default_cv_id`**: Foreign key to `cvs.id` with `nullOnDelete()` constraint.
 - **`tracked_jobs.user_id`**: Foreign key to `users.id` with `cascadeOnDelete()`.
 - **`tracked_jobs.cv_id`**: Foreign key to `cvs.id` with `nullOnDelete()`, ensuring deleting an obsolete resume never destroys job tracking records.
@@ -223,19 +230,23 @@ erDiagram
 ## Technical Highlights & Design Decisions
 
 ### 1. Service-Repository Pattern with DTOs
+
 - **Decoupled Architecture:** Business logic is entirely separated from controllers using `TrackedJobService`, `CvService`, and `DashboardService`.
 - **Contracts / Interfaces:** Repositories implement strict interfaces (`TrackedJobRepositoryInterface`, `CvRepositoryInterface`, etc.) bound in `RepositoryServiceProvider`.
 - **Data Transfer Objects:** Strict object mapping (`TrackedJobData`, `JobContactData`, `CvUploadData`) guarantees type safety and predictable payloads across application boundaries.
 
 ### 2. Atomic Operations & Data Consistency
+
 - Complex multi-entity operations—such as creating a job while uploading a new CV and adding multiple recruiter contacts—are wrapped inside `DB::transaction()` closures to guarantee complete atomicity.
 
 ### 3. Modern Frontend Stack (Vue 3 + Tailwind CSS 4)
+
 - **Composition API `<script setup lang="ts">`:** Written cleanly using TypeScript and Vue 3 reactive primitives.
 - **Reka UI & Lucide Icons:** Accessible, unstyled UI primitives styled seamlessly with Tailwind CSS 4.
 - **Inertia Wayfinder:** Automatic TypeScript route generation providing type-safe autocomplete for application routes.
 
 ### 4. Resilient Rate Limiting & Abuse Prevention
+
 - **Tiered Web Rate Limiting:** Global limiter differentiated by authentication state.
 - **Storage Protection:** CV upload endpoints are throttled to 10 requests/minute, capped at a maximum of 10 resumes per user and 5MB per file to prevent disk exhaustion.
 - **Client-Side Grace:** Inertia `httpException` listeners intercept HTTP 429 status codes and display elegant toast alerts via `vue-sonner`.
@@ -244,19 +255,19 @@ erDiagram
 
 ## Tech Stack
 
-| Category | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Backend Framework** | [Laravel 12](https://laravel.com) | Core API, routing, Eloquent ORM, security, and jobs |
-| **Language** | [PHP 8.3+](https://www.php.net) | Modern typed backend programming language |
-| **Frontend Adapter** | [Inertia.js v3](https://inertiajs.com) | Monolithic SPA architecture connecting Laravel & Vue |
-| **Frontend Framework** | [Vue 3](https://vuejs.org) | Declarative Composition API UI components |
-| **Type Safety** | [TypeScript 5.2](https://www.typescriptlang.org) | Type checking across all frontend components and routes |
-| **Styling** | [Tailwind CSS 4](https://tailwindcss.com) | Utility-first, high-performance styling engine |
-| **UI Primitives** | [Reka UI](https://reka-ui.com) | Accessible, unstyled accessible UI components |
-| **Authentication** | [Laravel Fortify](https://laravel.com/docs/fortify) | Headless, secure authentication and password reset backend |
-| **Database** | [SQLite](https://www.sqlite.org) / [MySQL](https://www.mysql.com) | Relational database storage |
-| **Code Quality** | [PHPStan / Larastan](https://github.com/larastan/larastan) & [Pint](https://laravel.com/docs/pint) | Static analysis (PHPStan Level 6) and PSR-12 code style |
-| **Testing** | [PHPUnit 12](https://phpunit.de) | Unit and feature automated test suite |
+| Category               | Technology                                                                                         | Purpose                                                    |
+| :--------------------- | :------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- |
+| **Backend Framework**  | [Laravel 12](https://laravel.com)                                                                  | Core API, routing, Eloquent ORM, security, and jobs        |
+| **Language**           | [PHP 8.3+](https://www.php.net)                                                                    | Modern typed backend programming language                  |
+| **Frontend Adapter**   | [Inertia.js v3](https://inertiajs.com)                                                             | Monolithic SPA architecture connecting Laravel & Vue       |
+| **Frontend Framework** | [Vue 3](https://vuejs.org)                                                                         | Declarative Composition API UI components                  |
+| **Type Safety**        | [TypeScript 5.2](https://www.typescriptlang.org)                                                   | Type checking across all frontend components and routes    |
+| **Styling**            | [Tailwind CSS 4](https://tailwindcss.com)                                                          | Utility-first, high-performance styling engine             |
+| **UI Primitives**      | [Reka UI](https://reka-ui.com)                                                                     | Accessible, unstyled accessible UI components              |
+| **Authentication**     | [Laravel Fortify](https://laravel.com/docs/fortify)                                                | Headless, secure authentication and password reset backend |
+| **Database**           | [SQLite](https://www.sqlite.org) / [MySQL](https://www.mysql.com)                                  | Relational database storage                                |
+| **Code Quality**       | [PHPStan / Larastan](https://github.com/larastan/larastan) & [Pint](https://laravel.com/docs/pint) | Static analysis (PHPStan Level 6) and PSR-12 code style    |
+| **Testing**            | [PHPUnit 12](https://phpunit.de)                                                                   | Unit and feature automated test suite                      |
 
 ---
 
@@ -309,6 +320,7 @@ trackly/
 ## Getting Started
 
 ### Prerequisites
+
 - **PHP**: `^8.3` (with `pdo`, `mbstring`, `fileinfo`, `openssl`, `tokenizer`, `xml`)
 - **Composer**: `^2.x`
 - **Node.js**: `^20.x` or `^22.x`
@@ -317,50 +329,58 @@ trackly/
 ### Installation Steps
 
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Kadry333/Trackly.git
-   cd Trackly
-   ```
+
+    ```bash
+    git clone https://github.com/Kadry333/Trackly.git
+    cd Trackly
+    ```
 
 2. **Install PHP dependencies:**
-   ```bash
-   composer install
-   ```
+
+    ```bash
+    composer install
+    ```
 
 3. **Install JavaScript dependencies:**
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 4. **Configure environment:**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
 5. **Set up the database and run migrations:**
-   ```bash
-   touch database/database.sqlite
-   php artisan migrate --seed
-   ```
+
+    ```bash
+    touch database/database.sqlite
+    php artisan migrate --seed
+    ```
 
 6. **Create symbolic link for storage (CV file uploads):**
-   ```bash
-   php artisan storage:link
-   ```
+
+    ```bash
+    php artisan storage:link
+    ```
 
 7. **Start local development servers:**
    In one terminal, run the Laravel development server:
-   ```bash
-   php artisan serve
-   ```
 
-   In a second terminal, run the Vite development server:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    php artisan serve
+    ```
 
-   Open your browser and navigate to **`http://localhost:8000`**.
+    In a second terminal, run the Vite development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    Open your browser and navigate to **`http://localhost:8000`**.
 
 ---
 
@@ -410,31 +430,40 @@ MAIL_FROM_NAME="${APP_NAME}"
 The project enforces high code quality through continuous automated verification:
 
 ### 1. Run Automated Test Suite (PHPUnit)
+
 All feature workflows, validation rules, authentication barriers, and contact synchronizations are thoroughly tested:
+
 ```bash
 ./vendor/bin/phpunit
 ```
 
 ### 2. Static Analysis (PHPStan / Larastan)
+
 Verify zero type regressions and strict type checks:
+
 ```bash
 composer analyze
 ```
 
 ### 3. Code Style & Linting (Laravel Pint)
+
 Ensure all PHP code adheres to standard styling:
+
 ```bash
 ./vendor/bin/pint --test
 ```
 
 ### 4. Frontend Type Checking & Formatting
+
 ```bash
 npm run types:check
 npm run check
 ```
 
 ### 5. Unified CI Verification
+
 Run the entire test and quality pipeline in one command:
+
 ```bash
 composer ci:check
 ```
@@ -444,6 +473,7 @@ composer ci:check
 ## Author & Acknowledgments
 
 **Kareem Kadry**
+
 - **GitHub:** [https://github.com/Kadry333](https://github.com/Kadry333)
 - **LinkedIn:** [https://www.linkedin.com/in/kareem-kadry/](https://www.linkedin.com/in/kareem-kadry/)
 - **Portfolio:** [https://kareem-kadry.vercel.app/](https://kareem-kadry.vercel.app/)
