@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 readonly class UpdateTrackedJobData
 {
+    /**
+     * @param  list<JobContactData>|null  $contacts
+     */
     public function __construct(
         public ?string $jobTitle = null,
         public ?string $companyName = null,
@@ -17,6 +20,7 @@ readonly class UpdateTrackedJobData
         public ?int $cvId = null,
         public ?string $notes = null,
         public ?Carbon $appliedAt = null,
+        public ?array $contacts = null,
     ) {}
 
     public static function fromRequest(UpdateTrackedJobRequest|Request $request): self
@@ -31,6 +35,19 @@ readonly class UpdateTrackedJobData
 
         $appliedAt = $request->input('appliedAt');
 
+        $contacts = null;
+        if ($request->has('contacts')) {
+            $rawContacts = $request->input('contacts', []);
+            $contacts = [];
+            if (is_array($rawContacts)) {
+                foreach ($rawContacts as $rawContact) {
+                    if (is_array($rawContact) && ! empty($rawContact['name'])) {
+                        $contacts[] = JobContactData::fromArray($rawContact);
+                    }
+                }
+            }
+        }
+
         return new self(
             jobTitle: $request->input('jobTitle'),
             companyName: $request->input('companyName'),
@@ -39,6 +56,7 @@ readonly class UpdateTrackedJobData
             cvId: $request->has('cv_id') ? ($request->filled('cv_id') ? (int) $request->input('cv_id') : null) : null,
             notes: $request->input('notes'),
             appliedAt: $appliedAt ? Carbon::parse($appliedAt) : null,
+            contacts: $contacts,
         );
     }
 

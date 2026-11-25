@@ -18,11 +18,15 @@ Route::middleware(['auth'])->group(function () {
 
     // Optional post-registration CV onboarding
     Route::get('onboarding/cv', [OnboardingController::class, 'show'])->name('onboarding.cv');
-    Route::post('onboarding/cv', [OnboardingController::class, 'store'])->name('onboarding.cv.store');
+    Route::post('onboarding/cv', [OnboardingController::class, 'store'])
+        ->middleware('throttle:uploads')
+        ->name('onboarding.cv.store');
 
     // CVs management
     Route::get('cvs', [CvController::class, 'index'])->name('cvs.index');
-    Route::post('cvs', [CvController::class, 'store'])->name('cvs.store');
+    Route::post('cvs', [CvController::class, 'store'])
+        ->middleware('throttle:uploads')
+        ->name('cvs.store');
     Route::patch('cvs/{cv}/default', [CvController::class, 'setDefault'])->name('cvs.default');
     Route::delete('cvs/{cv}', [CvController::class, 'destroy'])->name('cvs.destroy');
 

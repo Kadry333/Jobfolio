@@ -402,8 +402,10 @@ function formatDate(dateStr?: string | null): string {
                                             :title="
                                                 resolveJobUrl(job.jobURL)
                                                     .isWhatsApp
-                                                    ? 'Chat on WhatsApp'
-                                                    : 'Open job URL'
+                                                    ? 'Chat on WhatsApp: ' +
+                                                      job.jobURL
+                                                    : 'Open job URL: ' +
+                                                      job.jobURL
                                             "
                                         >
                                             <MessageCircle
@@ -429,6 +431,41 @@ function formatDate(dateStr?: string | null): string {
                                             <Building2 class="size-3.5" />
                                             {{ job.companyName }}
                                         </span>
+                                        <template v-if="job.jobURL">
+                                            <span>•</span>
+                                            <a
+                                                :href="
+                                                    resolveJobUrl(job.jobURL)
+                                                        .href
+                                                "
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="inline-flex max-w-[200px] items-center gap-1 font-medium transition-colors hover:underline"
+                                                :class="
+                                                    resolveJobUrl(job.jobURL)
+                                                        .isWhatsApp
+                                                        ? 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400'
+                                                        : 'text-primary'
+                                                "
+                                                :title="job.jobURL"
+                                            >
+                                                <MessageCircle
+                                                    v-if="
+                                                        resolveJobUrl(
+                                                            job.jobURL,
+                                                        ).isWhatsApp
+                                                    "
+                                                    class="size-3 shrink-0"
+                                                />
+                                                <ExternalLink
+                                                    v-else
+                                                    class="size-3 shrink-0"
+                                                />
+                                                <span class="truncate">{{
+                                                    job.jobURL
+                                                }}</span>
+                                            </a>
+                                        </template>
                                         <span>•</span>
                                         <span
                                             >Applied:

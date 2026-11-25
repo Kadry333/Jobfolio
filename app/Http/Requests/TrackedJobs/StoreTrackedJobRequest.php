@@ -6,6 +6,7 @@ use App\Enums\JobContactStatus;
 use App\Enums\TrackedJobStatus;
 use App\Models\User;
 use App\Rules\UrlOrWhatsApp;
+use App\Services\CvService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -39,7 +40,19 @@ class StoreTrackedJobRequest extends FormRequest
                 'nullable',
                 Rule::exists('cvs', 'id')->where('user_id', $user->id),
             ],
-            'new_cv_file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
+            'new_cv_file' => [
+                'nullable',
+                'file',
+                'mimes:pdf,doc,docx',
+                'max:5120',
+                function (string $attribute, mixed $value, \Closure $fail) use ($user) {
+                    /** @var CvService $cvService */
+                    $cvService = app(CvService::class);
+                    if ($cvService->hasReachedMaxCvs($user)) {
+                        $fail('You have reached the maximum limit of '.CvService::MAX_CVS_PER_USER.' resumes. Please delete an older resume before uploading a new one.');
+                    }
+                },
+            ],
             'new_cv_name' => ['nullable', 'string', 'max:255'],
             'make_default' => ['nullable', 'boolean'],
             'notes' => ['nullable', 'string'],

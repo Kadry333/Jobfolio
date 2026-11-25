@@ -22,8 +22,20 @@ class StoreOnboardingCvRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cv_file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
+            'cv_file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
             'name' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'cv_file.max' => 'The resume file size must not exceed 5MB.',
         ];
     }
 }

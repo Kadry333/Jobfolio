@@ -48,6 +48,11 @@ function onDrop(e: DragEvent) {
 }
 
 function setFile(file: File) {
+    if (file.size > 5 * 1024 * 1024) {
+        errorMessage.value = 'Resume file must be under 5MB.';
+        selectedFile.value = null;
+        return;
+    }
     selectedFile.value = file;
     if (!cvName.value) {
         cvName.value = file.name.replace(/\.[^/.]+$/, '');
@@ -122,7 +127,7 @@ function submit() {
                         </span>
                     </div>
                     <CardDescription>
-                        Accepted formats: PDF, DOC, or DOCX (max 10MB).
+                        Accepted formats: PDF, DOC, or DOCX (max 5MB).
                     </CardDescription>
                 </CardHeader>
 
@@ -159,7 +164,7 @@ function submit() {
                                 Click to browse or drag and drop your resume
                             </p>
                             <p class="text-xs text-muted-foreground">
-                                PDF, DOC, DOCX up to 10MB
+                                PDF, DOC, DOCX up to 5MB
                             </p>
                         </div>
 

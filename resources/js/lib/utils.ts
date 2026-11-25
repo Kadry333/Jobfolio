@@ -37,13 +37,12 @@ export function resolveJobUrl(url: string | null | undefined): {
         return { href: trimmed, isWhatsApp: true, displayLabel: 'WhatsApp' };
     }
 
-    // 2. Phone / WhatsApp number (e.g. +2010..., 010..., +1...)
-    const digitsOnly = trimmed.replace(/\D/g, '');
-    const isDomainUrl =
-        /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+/.test(trimmed) &&
-        !/^[+0-9\s().-]+$/.test(trimmed);
+    // 2. Pure phone / WhatsApp number (strictly numbers, +, spaces, -, (, ), .)
+    // Must NOT be a URL (does not contain letters or domain paths)
+    const isPurePhoneNumber = /^\+?[0-9\s\-().]{7,25}$/.test(trimmed);
 
-    if (!isDomainUrl && digitsOnly.length >= 6) {
+    if (isPurePhoneNumber) {
+        const digitsOnly = trimmed.replace(/\D/g, '');
         let waNumber = digitsOnly;
         if (trimmed.startsWith('+')) {
             waNumber = digitsOnly;
@@ -56,7 +55,7 @@ export function resolveJobUrl(url: string | null | undefined): {
         return {
             href: `https://wa.me/${waNumber}`,
             isWhatsApp: true,
-            displayLabel: 'WhatsApp',
+            displayLabel: trimmed,
         };
     }
 
@@ -65,6 +64,6 @@ export function resolveJobUrl(url: string | null | undefined): {
     return {
         href,
         isWhatsApp: false,
-        displayLabel: 'Job Posting',
+        displayLabel: trimmed,
     };
 }

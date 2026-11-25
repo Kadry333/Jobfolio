@@ -128,7 +128,7 @@ class TrackedJobController extends Controller
 
         $this->trackedJobService->update($user, $trackedJob, $dto);
 
-        return redirect()->route('jobs.show', $trackedJob)->with('success', 'Job application updated.');
+        return redirect()->route('jobs.index')->with('success', 'Job application updated.');
     }
 
     /**

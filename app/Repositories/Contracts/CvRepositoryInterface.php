@@ -22,6 +22,11 @@ interface CvRepositoryInterface
     public function getForUser(int $userId): Collection;
 
     /**
+     * Count CVs belonging to a user.
+     */
+    public function countForUser(int $userId): int;
+
+    /**
      * Find a CV by ID and user ID.
      */
     public function findByIdAndUser(int $id, int $userId): ?Cv;

@@ -136,4 +136,62 @@ class CvWorkflowTest extends TestCase
         $this->assertNull($user->default_cv_id);
         $this->assertDatabaseMissing('cvs', ['id' => $cv2->id]);
     }
+
+    public function test_cv_upload_fails_if_exceeding_5mb(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        // 6MB file
+        $file = UploadedFile::fake()->create('large_resume.pdf', 6144, 'application/pdf');
+
+        $response = $this->actingAs($user)->post(route('cvs.store'), [
+            'cv_file' => $file,
+            'name' => 'Too Large Resume',
+        ]);
+
+        $response->assertSessionHasErrors(['cv_file']);
+    }
+
+    public function test_user_cannot_upload_more_than_10_cvs(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        // Create 10 existing CVs
+        Cv::factory()->count(10)->create(['user_id' => $user->id]);
+
+        $file = UploadedFile::fake()->create('eleventh_resume.pdf', 500, 'application/pdf');
+
+        $response = $this->actingAs($user)->post(route('cvs.store'), [
+            'cv_file' => $file,
+            'name' => '11th Resume',
+        ]);
+
+        $response->assertSessionHasErrors(['cv_file']);
+        $this->assertDatabaseMissing('cvs', ['name' => '11th Resume']);
+    }
+
+    public function test_user_cannot_upload_more_than_10_cvs_via_job_create(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        // Create 10 existing CVs
+        Cv::factory()->count(10)->create(['user_id' => $user->id]);
+
+        $file = UploadedFile::fake()->create('inline_eleventh_resume.pdf', 500, 'application/pdf');
+
+        $response = $this->actingAs($user)->post(route('jobs.store'), [
+            'jobTitle' => 'Lead Developer',
+            'companyName' => 'Amazon',
+            'status' => 'applied',
+            'cv_selection' => 'new',
+            'new_cv_file' => $file,
+            'new_cv_name' => 'Inline 11th',
+        ]);
+
+        $response->assertSessionHasErrors(['new_cv_file']);
+        $this->assertDatabaseMissing('cvs', ['name' => 'Inline 11th']);
+    }
 }

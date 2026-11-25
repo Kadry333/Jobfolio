@@ -9,7 +9,7 @@ import {
     Trash2,
     UploadCloud,
 } from '@lucide/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -62,6 +62,8 @@ const props = defineProps<{
     defaultCvId: number | null;
 }>();
 
+const hasReachedLimit = computed(() => props.cvs.length >= 10);
+
 const isUploadModalOpen = ref(false);
 const selectedFile = ref<File | null>(null);
 const cvName = ref('');
@@ -72,9 +74,17 @@ const errorMessage = ref('');
 function onFileChange(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target.files && target.files[0]) {
-        selectedFile.value = target.files[0];
+        const file = target.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+            errorMessage.value = 'Resume file must be under 5MB.';
+            selectedFile.value = null;
+            target.value = '';
+            return;
+        }
+        errorMessage.value = '';
+        selectedFile.value = file;
         if (!cvName.value) {
-            cvName.value = target.files[0].name.replace(/\.[^/.]+$/, '');
+            cvName.value = file.name.replace(/\.[^/.]+$/, '');
         }
     }
 }
@@ -160,16 +170,28 @@ function confirmDeleteCv() {
                     Resumes & CVs
                 </h1>
                 <p class="text-sm text-muted-foreground">
-                    Upload tailored CV versions to link to your job
-                    applications.
+                    Upload tailored CV versions to link to your job applications
+                    ({{ cvs.length }}/10 uploaded).
                 </p>
             </div>
 
             <Dialog v-model:open="isUploadModalOpen">
                 <DialogTrigger as-child>
-                    <Button class="gap-2 self-start sm:self-auto">
+                    <Button
+                        class="gap-2 self-start sm:self-auto"
+                        :disabled="hasReachedLimit"
+                        :title="
+                            hasReachedLimit
+                                ? 'Maximum limit of 10 CVs reached'
+                                : undefined
+                        "
+                    >
                         <Plus class="size-4" />
-                        <span>Upload New CV</span>
+                        <span>{{
+                            hasReachedLimit
+                                ? 'Max CV Limit Reached (10/10)'
+                                : 'Upload New CV'
+                        }}</span>
                     </Button>
                 </DialogTrigger>
 
@@ -177,7 +199,8 @@ function confirmDeleteCv() {
                     <DialogHeader>
                         <DialogTitle>Upload Resume / CV</DialogTitle>
                         <DialogDescription>
-                            Supported formats: PDF, DOC, DOCX up to 10MB.
+                            Supported formats: PDF, DOC, DOCX up to 5MB (maximum
+                            10 resumes).
                         </DialogDescription>
                     </DialogHeader>
 

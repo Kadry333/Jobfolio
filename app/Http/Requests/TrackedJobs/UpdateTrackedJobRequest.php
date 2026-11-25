@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TrackedJobs;
 
+use App\Enums\JobContactStatus;
 use App\Enums\TrackedJobStatus;
 use App\Models\TrackedJob;
 use App\Models\User;
@@ -45,6 +46,14 @@ class UpdateTrackedJobRequest extends FormRequest
             ],
             'notes' => ['nullable', 'string'],
             'appliedAt' => ['nullable', 'date'],
+            'contacts' => ['nullable', 'array'],
+            'contacts.*.id' => ['nullable', 'integer'],
+            'contacts.*.name' => ['required', 'string', 'max:255'],
+            'contacts.*.email' => ['nullable', 'email', 'max:255'],
+            'contacts.*.position' => ['nullable', 'string', 'max:255'],
+            'contacts.*.status' => ['nullable', Rule::enum(JobContactStatus::class)],
+            'contacts.*.notes' => ['nullable', 'string', 'max:2000'],
+            'contacts.*.linkedin_url' => ['nullable', new UrlOrWhatsApp, 'max:2048'],
         ];
     }
 }

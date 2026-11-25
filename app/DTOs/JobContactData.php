@@ -13,6 +13,7 @@ readonly class JobContactData
         public ?string $position = null,
         public ?string $notes = null,
         public ?string $linkedinUrl = null,
+        public ?int $id = null,
     ) {}
 
     /**
@@ -32,6 +33,7 @@ readonly class JobContactData
             position: ! empty($data['position']) ? trim((string) $data['position']) : null,
             notes: ! empty($data['notes']) ? trim((string) $data['notes']) : null,
             linkedinUrl: ! empty($data['linkedin_url']) ? trim((string) $data['linkedin_url']) : null,
+            id: ! empty($data['id']) ? (int) $data['id'] : null,
         );
     }
 

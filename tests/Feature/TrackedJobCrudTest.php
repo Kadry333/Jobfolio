@@ -115,7 +115,7 @@ class TrackedJobCrudTest extends TestCase
             'notes' => 'Updated notes',
         ]);
 
-        $response->assertRedirect(route('jobs.show', $job));
+        $response->assertRedirect(route('jobs.index'));
 
         $this->assertDatabaseHas('tracked_jobs', [
             'id' => $job->id,

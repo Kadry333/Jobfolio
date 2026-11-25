@@ -22,4 +22,13 @@ export function initializeFlashToast(): void {
             toast.error(flash.error);
         }
     });
+
+    router.on('httpException', (event) => {
+        const response = event.detail.response;
+        if (response?.status === 429) {
+            toast.error(
+                'Too many requests. Please slow down and try again in a moment.',
+            );
+        }
+    });
 }

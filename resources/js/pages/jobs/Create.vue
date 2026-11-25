@@ -124,12 +124,17 @@ const errors = ref<Record<string, string>>({});
 function onNewCvFileChange(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target.files && target.files[0]) {
-        newCvFile.value = target.files[0];
+        const file = target.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+            errors.value.new_cv_file = 'Resume file must be under 5MB.';
+            newCvFile.value = null;
+            target.value = '';
+            return;
+        }
+        delete errors.value.new_cv_file;
+        newCvFile.value = file;
         if (!form.value.new_cv_name) {
-            form.value.new_cv_name = target.files[0].name.replace(
-                /\.[^/.]+$/,
-                '',
-            );
+            form.value.new_cv_name = file.name.replace(/\.[^/.]+$/, '');
         }
     }
 }
@@ -444,7 +449,8 @@ function submit() {
                     >
                         <div class="space-y-1.5">
                             <Label for="newCvFile"
-                                >Upload Resume File (PDF, DOC, DOCX) *</Label
+                                >Upload Resume File (PDF, DOC, DOCX up to 5MB)
+                                *</Label
                             >
                             <Input
                                 id="newCvFile"

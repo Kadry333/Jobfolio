@@ -193,4 +193,78 @@ class JobContactTest extends TestCase
             'id' => $contact->id,
         ]);
     }
+
+    public function test_user_can_update_job_and_sync_contacts(): void
+    {
+        $user = User::factory()->create();
+        $job = TrackedJob::factory()->create(['user_id' => $user->id]);
+
+        $existingContactToUpdate = JobContact::factory()->create([
+            'job_id' => $job->id,
+            'name' => 'Original Name',
+            'email' => 'orig@example.com',
+            'status' => JobContactStatus::WillContact->value,
+        ]);
+
+        $existingContactToDelete = JobContact::factory()->create([
+            'job_id' => $job->id,
+            'name' => 'To Be Removed',
+            'status' => JobContactStatus::NoResponse->value,
+        ]);
+
+        $updatePayload = [
+            'jobTitle' => 'Updated Job Title',
+            'companyName' => $job->companyName,
+            'status' => TrackedJobStatus::Interview->value,
+            'contacts' => [
+                [
+                    'id' => $existingContactToUpdate->id,
+                    'name' => 'Updated Name',
+                    'email' => 'updated@example.com',
+                    'position' => 'Lead Recruiter',
+                    'status' => JobContactStatus::Replied->value,
+                    'notes' => 'Great chat',
+                    'linkedin_url' => 'https://linkedin.com/in/updated',
+                ],
+                [
+                    'name' => 'Brand New Contact',
+                    'email' => 'new@example.com',
+                    'position' => 'CTO',
+                    'status' => JobContactStatus::WillContact->value,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->patch(route('jobs.update', $job), $updatePayload);
+
+        $response->assertRedirect(route('jobs.index'));
+
+        $this->assertDatabaseHas('tracked_jobs', [
+            'id' => $job->id,
+            'jobTitle' => 'Updated Job Title',
+            'status' => TrackedJobStatus::Interview->value,
+        ]);
+
+        // Verify updated contact
+        $this->assertDatabaseHas('job_contacts', [
+            'id' => $existingContactToUpdate->id,
+            'name' => 'Updated Name',
+            'email' => 'updated@example.com',
+            'position' => 'Lead Recruiter',
+            'status' => 'replied',
+        ]);
+
+        // Verify newly added contact
+        $this->assertDatabaseHas('job_contacts', [
+            'job_id' => $job->id,
+            'name' => 'Brand New Contact',
+            'email' => 'new@example.com',
+            'position' => 'CTO',
+        ]);
+
+        // Verify removed contact was deleted
+        $this->assertDatabaseMissing('job_contacts', [
+            'id' => $existingContactToDelete->id,
+        ]);
+    }
 }

@@ -103,9 +103,37 @@ class TrackedJobService
     {
         abort_unless($job->user_id === $user->id, 403);
 
-        $this->trackedJobRepository->update($job, $dto->toArray());
+        return DB::transaction(function () use ($job, $dto) {
+            $this->trackedJobRepository->update($job, $dto->toArray());
 
-        return $job->refresh();
+            if ($dto->contacts !== null) {
+                $existingContactIds = $job->contacts()->pluck('id')->all();
+                $keptContactIds = [];
+
+                foreach ($dto->contacts as $contactDto) {
+                    if ($contactDto->id && in_array($contactDto->id, $existingContactIds, true)) {
+                        $contact = $this->jobContactRepository->findById($contactDto->id);
+                        if ($contact && $contact->job_id === $job->id) {
+                            $this->jobContactRepository->update($contact, $contactDto->toArray());
+                            $keptContactIds[] = $contact->id;
+                        }
+                    } else {
+                        $newContact = $this->jobContactRepository->createForJob($job->id, $contactDto->toArray());
+                        $keptContactIds[] = $newContact->id;
+                    }
+                }
+
+                $toDelete = array_diff($existingContactIds, $keptContactIds);
+                foreach ($toDelete as $id) {
+                    $contact = $this->jobContactRepository->findById($id);
+                    if ($contact && $contact->job_id === $job->id) {
+                        $this->jobContactRepository->delete($contact);
+                    }
+                }
+            }
+
+            return $job->refresh();
+        });
     }
 
     /**

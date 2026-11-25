@@ -9,19 +9,39 @@ use App\Repositories\Contracts\CvRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class CvService
 {
+    public const MAX_CVS_PER_USER = 10;
+
     public function __construct(
         protected CvRepositoryInterface $cvRepository,
         protected UserRepositoryInterface $userRepository,
     ) {}
 
     /**
+     * Check if the user has reached the maximum number of CVs.
+     */
+    public function hasReachedMaxCvs(User $user): bool
+    {
+        return $this->cvRepository->countForUser($user->id) >= self::MAX_CVS_PER_USER;
+    }
+
+    /**
      * Upload and create a CV for the user.
      */
     public function uploadForUser(User $user, CvUploadData $dto): Cv
     {
+        if ($this->hasReachedMaxCvs($user)) {
+            throw new ValidationException(
+                validator: validator([], []),
+                response: back()->withErrors([
+                    'cv_file' => 'You have reached the maximum limit of '.self::MAX_CVS_PER_USER.' resumes. Please delete an older resume first.',
+                ])
+            );
+        }
+
         $path = $dto->file->store('cvs', 'public');
         $name = $dto->name ?: pathinfo($dto->file->getClientOriginalName(), PATHINFO_FILENAME);
 

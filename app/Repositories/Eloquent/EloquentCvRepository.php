@@ -23,6 +23,13 @@ class EloquentCvRepository implements CvRepositoryInterface
             ->get();
     }
 
+    public function countForUser(int $userId): int
+    {
+        return Cv::query()
+            ->where('user_id', $userId)
+            ->count();
+    }
+
     public function findByIdAndUser(int $id, int $userId): ?Cv
     {
         return Cv::query()
